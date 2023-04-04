@@ -90,7 +90,7 @@
                 <el-checkbox v-model="scope.row.status"></el-checkbox>
               </template>
             </el-table-column >
-            <el-table-column width="200">
+            <el-table-column width="1300">
               <template #default="scope">
                 <div
                     class="todo-item"
@@ -102,7 +102,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column width="255">
+            <el-table-column width="150">
               <template #default="scope">
                 <div
                     class="todo-item"
