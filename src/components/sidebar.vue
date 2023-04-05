@@ -88,7 +88,7 @@ const items = [
     {
         icon: 'DocumentCopy',
         index: '/tabs',
-        title: 'tab选项卡',
+        title: '消息列表',
         permiss: '3',
     },
     {

@@ -92,8 +92,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
           localStorage.setItem('chnlNum', result.chnlNum);
           // 用户待接收信息数
           localStorage.setItem('messageNum', result.messageNum);
-          // 用户信息列表
-          localStorage.setItem('messageList', JSON.stringify(result.messageList));
+          // 用户总登录次数
+          localStorage.setItem('loginNum', result.loginNum);
+          if(result.lastLoginInfo!=null){
+            // 用户总登录次数
+            localStorage.setItem('lastLoginInfo', JSON.stringify(result.lastLoginInfo));
+          }
+          // 用户信息
+          localStorage.setItem('userInfo', JSON.stringify(result.userInfo));
+          if(result.messageList!=null){
+            // 用户信息列表
+            localStorage.setItem('messageList', JSON.stringify(result.messageList));
+          }
           const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
           permiss.handleSet(keys);
           localStorage.setItem('ms_keys', JSON.stringify(keys));

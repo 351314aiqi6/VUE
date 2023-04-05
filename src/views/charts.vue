@@ -1,9 +1,12 @@
 <template>
 	<div class="container">
-		<div class="plugins-tips">
-			vue-schart：vue.js封装sChart.js的图表组件。 访问地址：
-			<a href="https://github.com/lin-xin/vue-schart" target="_blank">vue-schart</a>
-		</div>
+<!--		<div class="plugins-tips">-->
+<!--			vue-schart：vue.js封装sChart.js的图表组件。 访问地址：-->
+<!--			<a href="https://github.com/lin-xin/vue-schart" target="_blank">vue-schart</a>-->
+<!--		</div>-->
+    <div class="plugins-tips">
+     各商品销量的汇总比例图
+    </div>
 		<div class="schart-box">
 			<div class="content-title">柱状图</div>
 			<schart class="schart" canvasId="bar" :options="options1"></schart>

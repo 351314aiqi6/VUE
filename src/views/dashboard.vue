@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-card shadow="hover" class="mgb20" style="height: 252px">
+        <el-card shadow="hover" class="mgb20" style="height: 272px">
           <div class="user-info">
             <el-avatar :size="120" :src="imgurl"/>
             <div class="user-info-cont">
@@ -11,28 +11,30 @@
             </div>
           </div>
           <div class="user-info-list">
-            上次登录时间：
-            <span>2022-10-01</span>
+            总计登录次数：
+            <span>{{loginNum}}</span>
           </div>
           <div class="user-info-list">
             上次登录地点：
-            <span>东莞</span>
+            <span>{{lastLoginInfo.loginAddressDesc}}</span>
+          </div>
+          <div class="user-info-list">
+            上次登录时间：
+            <span>{{lastLoginInfo.loginIpAddress}}</span>
           </div>
         </el-card>
-        <el-card shadow="hover" style="height: 252px">
+        <el-card shadow="hover" style="height: 232px">
           <template #header>
             <div class="clearfix">
               <span>商品类别</span>
             </div>
           </template>
-          Vue
-          <el-progress :percentage="79.4" color="#42b983"></el-progress>
-          TypeScript
-          <el-progress :percentage="14" color="#f1e05a"></el-progress>
-          CSS
-          <el-progress :percentage="5.6"></el-progress>
-          HTML
-          <el-progress :percentage="1" color="#f56c6c"></el-progress>
+          食品
+          <el-progress :percentage="35.6" color="#FF0000"></el-progress>
+          百货
+          <el-progress :percentage="24" color="#f1e05a"></el-progress>
+          家电
+          <el-progress :percentage="41.4" ></el-progress>
         </el-card>
       </el-col>
       <el-col :span="16">
@@ -90,7 +92,7 @@
                 <el-checkbox v-model="scope.row.status"></el-checkbox>
               </template>
             </el-table-column >
-            <el-table-column width="1300">
+            <el-table-column style="width: 50%">
               <template #default="scope">
                 <div
                     class="todo-item"
@@ -139,10 +141,16 @@ import {reactive} from 'vue';
 import imgurl from '../assets/img/img.jpg';
 
 const name = localStorage.getItem('ms_username');
+const loginNum = localStorage.getItem('loginNum');
 const merchantNum = localStorage.getItem('merchantNum');
 const goodsNum = localStorage.getItem('goodsNum');
 const chnlNum = localStorage.getItem('chnlNum');
 const messageNum = localStorage.getItem('messageNum');
+let lastLoginInfo = {};
+const tmpInfo: string | null = localStorage.getItem('lastLoginInfo');
+if(tmpInfo!=null){
+  lastLoginInfo = JSON.parse(tmpInfo)
+}
 let messageList = [];
 const message: string | null = localStorage.getItem('messageList');
 if (message != null) {
