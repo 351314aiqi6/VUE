@@ -19,7 +19,7 @@
             <span>{{lastLoginInfo.loginAddressDesc}}</span>
           </div>
           <div class="user-info-list">
-            上次登录时间：
+            上次登录ip地：
             <span>{{lastLoginInfo.loginIpAddress}}</span>
           </div>
         </el-card>
@@ -56,7 +56,7 @@
             <el-card shadow="hover" :body-style="{ padding: '0px' }">
               <div class="grid-content grid-con-2">
                 <el-icon class="grid-con-icon">
-                  <ChatDotRound/>
+                  <User/>
                 </el-icon>
                 <div class="grid-cont-right">
                   <div class="grid-num">{{ merchantNum }}</div>
@@ -279,7 +279,7 @@ const options2 = {
 }
 
 .user-info-list {
-  font-size: 14px;
+  font-size: 15px;
   color: #999;
   line-height: 25px;
 }
