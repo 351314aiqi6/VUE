@@ -32,7 +32,7 @@
 
 <!--注册-->
 
-    <div class="rs-login" v-show="show">
+    <div class="rs-login" v-show="show" id="vshow">
       <div class="rs-title">用户注册</div>
       <el-form ref="relogin" :model="paramm" :rules="ruless" label-width="80px" class="rs-content">
         <el-form-item label="用户名" prop="rename">
@@ -133,9 +133,10 @@ const permiss = usePermissStore();
 const login = ref<FormInstance>();
 
 //通过点击事件控制注册页面的显示与隐藏
-const show = true;
+const show = false;
 const isshow = (rsshow : boolean) =>{
 //要取到show的值取反
+
 
 };
 
@@ -290,7 +291,7 @@ const submitFormm = async (formEl: FormInstance | undefined) => {
           const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
           permiss.handleSet(keys);
           localStorage.setItem('ms_keys', JSON.stringify(keys));
-          router.push('/login');
+          location.reload();
         } else {
           // 交易失败
           ElMessage.error('注册失败:' + message);
