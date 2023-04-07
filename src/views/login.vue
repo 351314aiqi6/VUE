@@ -26,13 +26,16 @@
         <div class="login-btn">
           <el-button type="primary" @click="submitForm(login)">登录</el-button>
         </div>
-        <button class="register-login" @click="isshow">注册</button>
+
+        <div class="login-btn">
+          <el-button type="primary" @click="isshow">注册</el-button>
+        </div>
       </el-form>
     </div>
 
 <!--注册-->
 
-    <div class="rs-login" v-show="show" id="vshow">
+    <div class="rs-login" v-show="show.isShow" id="vshow">
       <div class="rs-title">用户注册</div>
       <el-form ref="relogin" :model="paramm" :rules="ruless" label-width="80px" class="rs-content">
         <el-form-item label="用户名" prop="rename">
@@ -133,11 +136,15 @@ const permiss = usePermissStore();
 const login = ref<FormInstance>();
 
 //通过点击事件控制注册页面的显示与隐藏
-const show = false;
+interface ShowMode {
+  isShow: boolean
+}
+const show = reactive<ShowMode>({
+  isShow:false
+});
 const isshow = (rsshow : boolean) =>{
 //要取到show的值取反
-
-
+  show.isShow=true;
 };
 
 const submitForm = (formEl: FormInstance | undefined) => {
