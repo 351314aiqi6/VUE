@@ -12,15 +12,15 @@
           </div>
           <div class="user-info-list">
             总计登录次数：
-            <span>{{loginNum}}</span>
+            <span>{{ loginNum }}</span>
           </div>
           <div class="user-info-list">
             上次登录地点：
-            <span>{{lastLoginInfo.loginAddressDesc}}</span>
+            <span>{{ lastLoginInfo.loginAddressDesc }}</span>
           </div>
           <div class="user-info-list">
             上次登录ip地：
-            <span>{{lastLoginInfo.loginIpAddress}}</span>
+            <span>{{ lastLoginInfo.loginIpAddress }}</span>
           </div>
         </el-card>
         <el-card shadow="hover" style="height: 232px">
@@ -34,7 +34,7 @@
           百货
           <el-progress :percentage="24" color="#f1e05a"></el-progress>
           家电
-          <el-progress :percentage="41.4" ></el-progress>
+          <el-progress :percentage="41.4"></el-progress>
         </el-card>
       </el-col>
       <el-col :span="16">
@@ -82,7 +82,7 @@
         <el-card shadow="hover" style="height: 403px">
           <template #header>
             <div class="clearfix">
-              <span>待处理消息 [{{ messageNum }}] 条</span>
+              <span>待处理信件 [{{ messageNum }}] 封</span>
             </div>
           </template>
 
@@ -91,7 +91,7 @@
               <template #default="scope">
                 <el-checkbox v-model="scope.row.status"></el-checkbox>
               </template>
-            </el-table-column >
+            </el-table-column>
             <el-table-column style="width: 50%">
               <template #default="scope">
                 <div
@@ -100,7 +100,7 @@
 										'todo-item-del': scope.row.status
 									}"
                 >
-                  {{ scope.row.messageContent }}
+                  信件标题【{{ scope.row.messageTitle }}】,发送时间【{{ scope.row.createTime }}】
                 </div>
               </template>
             </el-table-column>
@@ -115,7 +115,7 @@
                   发送人ID:{{ scope.row.sendUserId }}
                 </div>
               </template>
-            </el-table-column >
+            </el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -148,7 +148,7 @@ const chnlNum = localStorage.getItem('chnlNum');
 const messageNum = localStorage.getItem('messageNum');
 let lastLoginInfo = {};
 const tmpInfo: string | null = localStorage.getItem('lastLoginInfo');
-if(tmpInfo!=null){
+if (tmpInfo != null) {
   lastLoginInfo = JSON.parse(tmpInfo)
 }
 let messageList = [];

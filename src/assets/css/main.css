@@ -98,6 +98,10 @@ a {
     width: 600px;
 }
 
+.form-box-all {
+    width: 90%;
+}
+
 .form-box .line {
     text-align: center;
 }

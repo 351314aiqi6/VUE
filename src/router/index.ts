@@ -25,10 +25,28 @@ const routes: RouteRecordRaw[] = [
                 path: '/table',
                 name: 'basetable',
                 meta: {
-                    title: '表格',
+                    title: '渠道商',
                     permiss: '2',
                 },
                 component: () => import(/* webpackChunkName: "table" */ '../views/table.vue'),
+            },
+            {
+                path: '/merTable',
+                name: 'merTable',
+                meta: {
+                    title: '商户管理',
+                    permiss: '2',
+                },
+                component: () => import(/* webpackChunkName: "merTable" */ '../views/merTable.vue'),
+            },
+            {
+                path: '/goods',
+                name: 'goods',
+                meta: {
+                    title: '商品管理',
+                    permiss: '2',
+                },
+                component: () => import(/* webpackChunkName: "merTable" */ '../views/goods.vue'),
             },
             {
                 path: '/charts',
@@ -40,14 +58,23 @@ const routes: RouteRecordRaw[] = [
                 component: () => import(/* webpackChunkName: "charts" */ '../views/charts.vue'),
             },
             {
-                path: '/form',
-                name: 'baseform',
+                path: '/purchase',
+                name: 'purchase',
                 meta: {
-                    title: '表单',
+                    title: '采购申请',
                     permiss: '5',
                 },
-                component: () => import(/* webpackChunkName: "form" */ '../views/form.vue'),
+                component: () => import(/* webpackChunkName: "form" */ '../views/purchase.vue'),
             },
+            // {
+            //     path: '/form',
+            //     name: 'baseform',
+            //     meta: {
+            //         title: '表单',
+            //         permiss: '5',
+            //     },
+            //     component: () => import(/* webpackChunkName: "form" */ '../views/form.vue'),
+            // },
             {
                 path: '/tabs',
                 name: 'tabs',

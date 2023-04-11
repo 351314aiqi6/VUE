@@ -7,6 +7,7 @@ import { usePermissStore } from './store/permiss';
 import 'element-plus/dist/index.css';
 import './assets/css/icon.css';
 
+
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
@@ -27,7 +28,7 @@ app.directive('permiss', {
 
 app.mount('#app');
 
-// //配置请求数据
+// // //配置请求数据
 // import {AxiosInstance } from "axios";
 // import Axios from "axios";
 //

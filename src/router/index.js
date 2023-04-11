@@ -24,10 +24,28 @@ const routes = [
                 path: '/table',
                 name: 'basetable',
                 meta: {
-                    title: '表格',
+                    title: '渠道商',
                     permiss: '2',
                 },
                 component: () => import(/* webpackChunkName: "table" */ '../views/table.vue'),
+            },
+            {
+                path: '/merTable',
+                name: 'merTable',
+                meta: {
+                    title: '商户管理',
+                    permiss: '2',
+                },
+                component: () => import(/* webpackChunkName: "table" */ '../views/merTable.vue'),
+            },
+            {
+                path: '/goods',
+                name: 'goods',
+                meta: {
+                    title: '商品管理',
+                    permiss: '2',
+                },
+                component: () => import(/* webpackChunkName: "table" */ '../views/goods.vue'),
             },
             {
                 path: '/charts',
@@ -37,6 +55,69 @@ const routes = [
                     permiss: '11',
                 },
                 component: () => import(/* webpackChunkName: "charts" */ '../views/charts.vue'),
+            },
+            {
+                path: '/purchase',
+                name: 'purchase',
+                meta: {
+                    title: '采购申请',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/purchase.vue'),
+            },
+            {
+                path: '/purchaseList',
+                name: 'purchaseList',
+                meta: {
+                    title: '采购处理',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/purchaseList.vue'),
+            },
+            {
+                path: '/messageList',
+                name: 'messageList',
+                meta: {
+                    title: '信件邮箱',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/messageList.vue'),
+            },
+            {
+                path: '/message',
+                name: 'message',
+                meta: {
+                    title: '信件发送',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/message.vue'),
+            },
+            {
+                path: '/performKol',
+                name: 'performKol',
+                meta: {
+                    title: '主播信息',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/peformKol.vue'),
+            },
+            {
+                path: '/performList',
+                name: 'performList',
+                meta: {
+                    title: '主播广场',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/performList.vue'),
+            },
+            {
+                path: '/myPerform',
+                name: 'myPerform',
+                meta: {
+                    title: '我的直播',
+                    permiss: '5',
+                },
+                component: () => import(/* webpackChunkName: "form" */ '../views/myPerform.vue'),
             },
             {
                 path: '/form',
@@ -159,6 +240,7 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes,
 });
+
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
     const role = localStorage.getItem('ms_username');

@@ -17,6 +17,7 @@
                         <el-form-item prop="date1">
                             <el-date-picker
                                 type="date"
+                                value-format="YYYY-MM-DDTHH:mm:ss.000Z"
                                 placeholder="选择日期"
                                 v-model="form.date1"
                                 style="width: 100%"
@@ -26,7 +27,7 @@
                     <el-col class="line" :span="2">-</el-col>
                     <el-col :span="11">
                         <el-form-item prop="date2">
-                            <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%">
+                            <el-time-picker value-format="YYYY-MM-DDTHH:mm:ss.000Z"  placeholder="选择时间" v-model="form.date2" style="width: 100%">
                             </el-time-picker>
                         </el-form-item>
                     </el-col>
@@ -137,6 +138,10 @@ const form = reactive({
 });
 // 提交
 const onSubmit = (formEl: FormInstance | undefined) => {
+   alert(form.date1)
+  alert(form.date2)
+  // alert(JSON.stringify(form.date1))
+  // alert(JSON.stringify(form.date2))
     // 表单校验
     if (!formEl) return;
     formEl.validate((valid) => {
