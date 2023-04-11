@@ -391,6 +391,7 @@ const saveAdd = (formEl: FormInstance | undefined) => {
         }
         addFormParam.goodsName = "";
         clean(addFormParam);
+        addFormParam.userId = userId;
       }).catch(function (error) {
         ElMessage.error(`新增商品失败：系统内部错误`);
         clean(addFormParam);
