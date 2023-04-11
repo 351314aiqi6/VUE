@@ -4,7 +4,7 @@
       <el-col :span="8">
         <el-card shadow="hover" class="mgb20" style="height: 272px">
           <div class="user-info">
-            <el-avatar :size="120" :src="imgurl"/>
+            <el-avatar :size="120" :src="avatarImg"/>
             <div class="user-info-cont">
               <div class="user-info-name">{{ name }}</div>
               <div>{{ role }}</div>
@@ -139,6 +139,16 @@
 import Schart from 'vue-schart';
 import {reactive} from 'vue';
 import imgurl from '../assets/img/img.jpg';
+import { ref} from 'vue';
+
+// 头像图片
+const avatarImg = ref();
+const user: string | null = localStorage.getItem('userInfo');
+if (user != null) {
+  // 解析用户信息
+  const dbUser = JSON.parse(user);
+  avatarImg.value = dbUser.userAvatar;
+}
 
 const name = localStorage.getItem('ms_username');
 const loginNum = localStorage.getItem('loginNum');

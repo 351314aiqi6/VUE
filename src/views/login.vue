@@ -42,7 +42,16 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item label="用户密码：" prop="userPassword">
+        <el-form-item prop="img" class="upload" label="用户头像">
+          <div class="info-image" @click="showDialog">
+            <el-avatar :size="30" :src="avatarImg"/>
+            <!--            <span class="info-edit">-->
+            <!--								<i class="el-icon-lx-camerafill"></i>-->
+            <!--							</span>-->
+          </div>
+          <el-button size="small" type="primary" @click="showDialog">点击上传</el-button>
+        </el-form-item>
+        <el-form-item label="用户密码" prop="userPassword">
           <el-input v-model="registerParam.userPassword" placeholder="用户密码" type="password">
           </el-input>
         </el-form-item>
@@ -100,6 +109,26 @@
 
       <!--      </template>-->
     </el-dialog>
+
+    <el-dialog title="裁剪图片" v-model="dialogVisible" width="600px">
+      <vue-cropper
+          ref="cropper"
+          :src="imgSrc"
+          :ready="cropImage"
+          :zoom="cropImage"
+          :cropmove="cropImage"
+          style="width: 100%; height: 400px"
+      ></vue-cropper>
+
+      <template #footer>
+				<span class="dialog-footer">
+					<el-button class="crop-demo-btn" type="primary" @change="setImage">选择图片
+						<input class="crop-input" type="file" name="image" accept="image/*" @change="setImage"/>
+					</el-button>
+					<el-button type="primary" @click="saveAvatar">上传并保存</el-button>
+				</span>
+      </template>
+    </el-dialog>
   </div>
 
 
@@ -115,7 +144,10 @@ import type {FormInstance, FormRules} from 'element-plus';
 import {Lock, User, Avatar, Pointer, Select, CloseBold} from '@element-plus/icons-vue';
 import axios from "axios";
 import request from "../request";
+import avatar from '../assets/img/img.jpg';
 import QS from "qs";
+import VueCropper from 'vue-cropperjs';
+import 'cropperjs/dist/cropper.css';
 
 interface LoginInfo {
   username: string;
@@ -211,6 +243,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
           }
           // 用户信息
           localStorage.setItem('userId', result.userInfo.id);
+          // 用户头像
+          localStorage.setItem('userAvatar', result.userAvatar);
           // 用户信息
           localStorage.setItem('userInfo', JSON.stringify(result.userInfo));
           if (result.messageList != null) {
@@ -242,6 +276,7 @@ interface UserInfo {
   id: string
   userId: string;
   userLoginName: string;
+  userAvatar: string;
   userEmail: string;
   userMobilePhone: string;
   userRole: string;
@@ -254,6 +289,7 @@ interface UserInfo {
 }
 
 const registerParam = reactive<UserInfo>({
+  userAvatar: "",
   id: '',
   userId: '',
   userLoginName: '',
@@ -306,113 +342,43 @@ const registerRule: FormRules = {
 };
 const register = ref<FormInstance>()
 
-//注册
-interface ReLoginInfo {
-  rename: string;
-  repassword: string;
-  userrole: string;
-  idno: string;
-  idtype: string;
-  realname: string;
-  email: string;
-  phone: string;
-  address: string;
-}
+// 头像图片
+const avatarImg = ref(avatar);
+// 图像来源
+const imgSrc = ref('');
+const cropImg = ref('');
+const dialogVisible = ref(false);
+const cropper: any = ref();
 
-const relogin = ref<FormInstance>()
-const paramm = reactive<ReLoginInfo>({
-  rename: '',
-  repassword: '',
-  userrole: '',
-  idno: '',
-  idtype: '',
-  realname: '',
-  email: '',
-  phone: '',
-  address: ''
-});
-
-
-const ruless: FormRules = {
-  rename: [
-    {required: true, message: '请输入用户名', trigger: 'blur'},
-    {min: 5, max: 16, message: '用户名长度为5-15位之间', trigger: 'blur'},
-  ],
-  repassword: [
-    {required: true, message: '请输入密码', trigger: 'blur'},
-    {min: 5, max: 15, message: '密码长度为5-15为之间', trigger: 'blur'},
-  ],
-  userrole: [
-    {required: true, message: '请选择注册角色', trigger: 'blur'},
-    // {min: 2, max: 2, message: '用户角色默认为01', trigger: 'blur'},
-  ],
-  idno: [
-    {required: true, message: '请输入证件号码', trigger: 'blur'},
-    {min: 18, max: 18, message: '身份证号码长度为18位', trigger: 'blur'},
-  ],
-  idtype: [
-    {required: true, message: '请选择证件类型', trigger: 'blur'},
-    // {min: 2, max: 2, message: '证件类型为00', trigger: 'blur'},
-  ],
-  realname: [
-    {required: true, message: '请输入真实姓名', trigger: 'blur'},
-    {min: 2, max: 10, message: '真实姓名的长度为2-10之间', trigger: 'blur'},
-  ],
-  email: [
-    {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-    {min: 17, max: 17, message: '邮箱地址长度为17位', trigger: 'blur'},
-  ],
-  phone: [
-    {required: true, message: '请输入电话号码', trigger: 'blur'},
-    {min: 11, max: 11, message: '电话号码长度为11位', trigger: 'blur'},
-  ],
-  address: [
-    {required: true, message: '请输入居住地址', trigger: 'blur'},
-    {min: 2, max: 20, message: '居住地址长度为2-20位之间', trigger: 'blur'},
-  ]
+const showDialog = () => {
+  dialogVisible.value = true;
+  imgSrc.value = avatarImg.value;
 };
 
-const submitFormm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      const register = new URLSearchParams();
-      register.append("userLoginName", paramm.rename);
-      register.append("userPassword", paramm.repassword);
-      register.append("userRole", paramm.userrole);
-      register.append("userIdNo", paramm.idno);
-      register.append("userIdType", paramm.idtype);
-      register.append("userRealName", paramm.realname);
-      register.append("userEmail", paramm.email);
-      register.append("userMobilePhone", paramm.phone);
-      register.append("userAddress", paramm.address);
-      request.post("/user/register", register).then(function (response) {
-        // 返回响应码
-        const code = response.data.code;
-        // 返回响应描述
-        const message = response.data.message;
-        // 返回数据
-        const result = response.data.result;
-        // 0代表交易成功
-        if (code == 0) {
-          ElMessage.success('注册成功');
-
-          const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
-          permiss.handleSet(keys);
-          localStorage.setItem('ms_keys', JSON.stringify(keys));
-          location.reload();
-        } else {
-          // 交易失败
-          ElMessage.error('注册失败:' + message);
-        }
-      }).catch(function (error) {
-        ElMessage.error('登录失败：系统内部错误！');
-      });
-    } else {
-      console.log('注册失败!', fields)
-    }
-  });
+const setImage = (e: any) => {
+  const file = e.target.files[0];
+  if (!file.type.includes('image/')) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (event: any) => {
+    dialogVisible.value = true;
+    imgSrc.value = event.target.result;
+    registerParam.userAvatar = imgSrc.value;
+    cropper.value && cropper.value.replace(event.target.result);
+  };
+  reader.readAsDataURL(file);
 };
+
+const cropImage = () => {
+  cropImg.value = cropper.value.getCroppedCanvas().toDataURL();
+};
+
+const saveAvatar = () => {
+  avatarImg.value = cropImg.value;
+  dialogVisible.value = false;
+};
+
 
 const tags = useTagsStore();
 tags.clearTags();
@@ -505,5 +471,44 @@ tags.clearTags();
   color: #000000;
   /*border: none;*/
   background: rgba(255, 255, 255, 0);
+}
+
+.crop-demo-btn {
+  position: relative;
+}
+
+.crop-input {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.info-edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.info-image {
+  position: relative;
+  margin-right: 6px;
+  width: 30px;
+  height: 30px;
+  background: #f8f8f8;
+  border: 1px solid #eee;
+  border-radius: 50px;
+  overflow: hidden;
 }
 </style>

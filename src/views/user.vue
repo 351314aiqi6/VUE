@@ -95,12 +95,14 @@ import avatar from '../assets/img/img.jpg';
 import request from "../request";
 import {ElMessage} from "element-plus";
 import {User} from '@element-plus/icons-vue';
+import QS from "qs";
 
 interface UserInfo {
   id: string
   userId: string;
   userLoginName: string;
   userEmail: string;
+  userAvatar: string;
   userMobilePhone: string;
   userRole: string;
   userPassword: string;
@@ -110,10 +112,11 @@ interface UserInfo {
   userAddress: string;
   userAdditional: string;
   createTime: string;
-  updateTime:string;
+  updateTime: string;
 }
 
 const param = reactive<UserInfo>({
+  userAvatar: "",
   id: "",
   userId: "",
   userLoginName: "",
@@ -127,27 +130,52 @@ const param = reactive<UserInfo>({
   userMobilePhone: "",
   userNewPassword: "",
   createTime: "",
-  updateTime:""
+  updateTime: ""
 });
-const user: string | null = localStorage.getItem('userInfo');
-if (user != null) {
-  // 解析用户信息
-  const dbUser = <UserInfo>JSON.parse(user);
-  param.id = dbUser.id;
-  param.userId = dbUser.id;
-  param.userLoginName = dbUser.userLoginName;
-  param.userAdditional = dbUser.userAdditional;
-  param.userAddress = dbUser.userAddress;
-  param.userIdNo = dbUser.userIdNo;
-  param.userRole = dbUser.userRole;
-  param.userRealName = dbUser.userRealName;
-  param.userEmail = dbUser.userEmail;
-  param.userMobilePhone = dbUser.userMobilePhone;
-  param.createTime = dbUser.createTime;
-  param.updateTime = dbUser.updateTime;
-}
+// 头像图片
+const avatarImg = ref(avatar);
+const dbUser = <UserInfo>JSON.parse(localStorage.getItem('userInfo'));
+// 解析用户信息
+param.id = dbUser.id;
+param.userId = dbUser.id;
+param.userAvatar = dbUser.userAvatar;
+param.userLoginName = dbUser.userLoginName;
+param.userAdditional = dbUser.userAdditional;
+param.userAddress = dbUser.userAddress;
+param.userIdNo = dbUser.userIdNo;
+param.userRole = dbUser.userRole;
+param.userRealName = dbUser.userRealName;
+param.userEmail = dbUser.userEmail;
+param.userMobilePhone = dbUser.userMobilePhone;
+param.createTime = dbUser.createTime;
+param.updateTime = dbUser.updateTime;
+avatarImg.value = dbUser.userAvatar;
+
 // 获取用户名
 const name = localStorage.getItem('ms_username');
+
+// const getUserAvatar = () => {
+//   request.post("/user/getUserAvatar", new URLSearchParams(param)).then(function (response) {
+//     // 返回响应码
+//     const code = response.data.code;
+//     // 返回响应描述
+//     const message = response.data.message;
+//     // 返回数据
+//     const result = response.data.result;
+//     // 0代表交易成功
+//     if (code == 0) {
+//       ElMessage.success('加载个人信息成功');
+//       avatarImg.value = result;
+//     } else {
+//       // 交易失败
+//       ElMessage.error('加载个人信息失败:' + message);
+//     }
+//   }).catch(function (error) {
+//     ElMessage.error('加载个人信息失败：系统内部错误！');
+//   })
+// }
+//
+// getUserAvatar();
 
 const onSubmit = () => {
   request.post("/user/update", new URLSearchParams(param)).then(function (response) {
@@ -171,7 +199,7 @@ const onSubmit = () => {
   })
 };
 
-const avatarImg = ref(avatar);
+// 图像来源
 const imgSrc = ref('');
 const cropImg = ref('');
 const dialogVisible = ref(false);
@@ -192,6 +220,7 @@ const setImage = (e: any) => {
     dialogVisible.value = true;
     imgSrc.value = event.target.result;
     cropper.value && cropper.value.replace(event.target.result);
+
   };
   reader.readAsDataURL(file);
 };
@@ -201,8 +230,30 @@ const cropImage = () => {
 };
 
 const saveAvatar = () => {
-  avatarImg.value = cropImg.value;
-  dialogVisible.value = false;
+  param.userAvatar = cropImg.value;
+  request.post("/user/replaceUserAvatar", new URLSearchParams(param)).then(function (response) {
+    // 返回响应码
+    const code = response.data.code;
+    // 返回响应描述
+    const message = response.data.message;
+    // 返回数据
+    const result = response.data.result;
+    // 0代表交易成功
+    if (code == 0) {
+      ElMessage.success('修改成功');
+      avatarImg.value = cropImg.value;
+      dbUser.userAvatar = cropImg.value;
+      dialogVisible.value = false;
+      // 用户信息
+      localStorage.setItem('userInfo', JSON.stringify(dbUser));
+    } else {
+      // 交易失败
+      ElMessage.error('修改失败:' + message);
+    }
+  }).catch(function (error) {
+    ElMessage.error('修改失败:'+JSON.stringify(error));
+  })
+
 };
 </script>
 
