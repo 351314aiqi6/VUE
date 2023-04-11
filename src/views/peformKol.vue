@@ -102,6 +102,9 @@
             <el-form-item label="直播标题：" prop="performTitle">
               <el-input v-model="performParam.performTitle" style="margin-left: 10px" placeholder="请输入直播标题"></el-input>
             </el-form-item>
+            <el-form-item label="最大预约人数：" >
+              <el-input v-model="performParam.applyMaxNumber" style="margin-left: 10px" placeholder="100"></el-input>
+            </el-form-item>
             <el-form-item label="直播链接：" prop="performUrl">
               <el-input v-model="performParam.performUrl" style="margin-left: 10px" placeholder="请输入直播链接"></el-input>
             </el-form-item>
@@ -274,6 +277,7 @@ const performParam = reactive({
   userId: userInfo.value.id,
   performGoodsIntroduce: '',
   performUrl: '',
+  applyMaxNumber: '',
   performTitle:'',
   performStartDttm: '',
   performEndDttm: '',

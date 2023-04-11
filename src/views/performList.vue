@@ -25,13 +25,17 @@
         <el-table-column prop="kolId" width="90" label="主播编号" align="center"></el-table-column>
         <el-table-column prop="performUrl" style="width: 12%" label="直播链接" align="center"></el-table-column>
         <el-table-column prop="applyNumber" width="90" label="预约人数" align="center"></el-table-column>
+        <el-table-column prop="applyMaxNumber" width="90" label="最大预约数" align="center"></el-table-column>
         <el-table-column prop="performStartDttm" style="width: 12%" label="开始时间" align="center"></el-table-column>
         <el-table-column prop="performEndDttm" width="160" label="结束时间" align="center"></el-table-column>
-        <el-table-column label="操作" width="150" align="center">
+        <el-table-column label="操作" width="200" align="center">
           <template #default="scope">
-            <el-button text :icon="Timer" v-if="scope.row.performStatus=='00'" style="color: #ff5900;font-weight: bold"
+            <el-button text :icon="Timer" v-if="scope.row.performStatus=='00' && !(scope.row.applyNumber >= scope.row.applyMaxNumber)" style="color: #ff5900;font-weight: bold"
                        @click="handleEdit(scope.$index, scope.row)" v-permiss="15">
               直播预约
+            </el-button>
+            <el-button type="primary" :icon="VideoCamera" v-if="scope.row.applyNumber >= scope.row.applyMaxNumber" color="grey" disabled @click="performBook">预
+              约 人 数 已 满
             </el-button>
             <el-button text :icon="VideoPlay" v-if="scope.row.performStatus=='01'"
                        style="color: green;font-weight: bold" @click="performShow(scope.$index, scope.row)"
@@ -136,6 +140,7 @@ interface Perform {
   performGoodsIntroduce: string;
   performUrl: string;
   applyNumber: string;
+  applyMaxNumber: string;
   performStartDttm: string;
   performEndDttm: string;
 }
@@ -283,6 +288,7 @@ const bookFormParam = ref<Perform>({
   performPlatform: "",
   performStartDttm: "",
   performStatus: "",
+  applyMaxNumber:"",
   performTitle: "",
   performUrl: ""
 });
