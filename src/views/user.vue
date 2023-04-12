@@ -149,8 +149,9 @@ param.userEmail = dbUser.userEmail;
 param.userMobilePhone = dbUser.userMobilePhone;
 param.createTime = dbUser.createTime;
 param.updateTime = dbUser.updateTime;
-avatarImg.value = dbUser.userAvatar;
-
+if(dbUser.userAvatar!=null){
+  avatarImg.value = dbUser.userAvatar;
+}
 // 获取用户名
 const name = localStorage.getItem('ms_username');
 

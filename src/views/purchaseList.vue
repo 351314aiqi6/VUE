@@ -11,17 +11,19 @@
                 }}】,采购数量【{{ scope.row.purchaseNumber }}】,采购总金额【{{ scope.row.totalPrice }}】</span>
             </template>
           </el-table-column>
-          <el-table-column prop="date" width="120"></el-table-column>
-          <el-table-column width="120">
+          <el-table-column width="130px">
             <template #default="scope">
-              <el-button size="small" color="green" disabled v-if="scope.row.purchaseStatus=='00'
-              || scope.row.purchaseStatus=='02' " @click="handleRead(scope.$index)">对方处理
+              <el-button size="small" :icon="Loading" color="grey" disabled v-if="scope.row.purchaseStatus=='02' "
+                         @click="handleRead(scope.$index)">对 方 处 理
               </el-button>
-              <el-button size="small" color="red" v-if="scope.row.purchaseStatus=='01'"
-                         @click="handle(scope.$index,scope.row,'02')">发起支付
+              <el-button size="small" :icon="DeleteFilled" color="red" v-if="scope.row.purchaseStatus=='00'"
+                         @click="handle(scope.$index,scope.row,'99')">取 消 采 购
               </el-button>
-              <el-button size="small" color="red" v-if="scope.row.purchaseStatus=='03'"
-                         @click="handle(scope.$index,scope.row,'04')">确认收货
+              <el-button size="small" :icon="ShoppingCartFull" color="green" v-if="scope.row.purchaseStatus=='01'"
+                         @click="handle(scope.$index,scope.row,'02')">发 起 支 付
+              </el-button>
+              <el-button size="small" :icon="GoodsFilled" color="green" v-if="scope.row.purchaseStatus=='03'"
+                         @click="handle(scope.$index,scope.row,'04')">确 认 收 货
               </el-button>
             </template>
           </el-table-column>
@@ -41,17 +43,19 @@
                   }}】,采购数量【{{ scope.row.purchaseNumber }}】,采购总金额【{{ scope.row.totalPrice }}】</span>
               </template>
             </el-table-column>
-            <el-table-column prop="date" width="150"></el-table-column>
-            <el-table-column width="120">
+            <el-table-column width="240px">
               <template #default="scope">
-                <el-button size="small" color="green" disabled
-                           v-if="scope.row.purchaseStatus=='01' || scope.row.purchaseStatus=='03' ">对方处理
+                <el-button size="small" color="grey" disabled :icon="Loading" style="margin-left: 120px"
+                           v-if="scope.row.purchaseStatus=='01' || scope.row.purchaseStatus=='03' ">对 方 处 理
                 </el-button>
-                <el-button size="small" color="red" v-if="scope.row.purchaseStatus=='00'"
-                           @click="handle(scope.$index,scope.row,'01')">采购受理
+                <el-button style="margin-left: 120px" size="small" color="green" :icon="Briefcase" v-if="scope.row.purchaseStatus=='00'"
+                           @click="handle(scope.$index,scope.row,'01')">采 购 受 理
                 </el-button>
-                <el-button size="small" color="red" v-if="scope.row.purchaseStatus=='02'"
-                           @click="handle(scope.$index,scope.row,'03')">订单发货
+                <el-button style="margin-left: 120px" size="small" :icon="Promotion" color="green" v-if="scope.row.purchaseStatus=='02'"
+                           @click="handle(scope.$index,scope.row,'03')">订 单 发 货
+                </el-button>
+                <el-button style="margin-left: 120px;margin-top: 5px" size="small" color="red"  :icon="DeleteFilled" v-if="scope.row.purchaseStatus=='00'"
+                           @click="handle(scope.$index,scope.row,'99')">采 购 拒 绝
                 </el-button>
               </template>
             </el-table-column>
@@ -259,8 +263,8 @@
 
 <script setup lang="ts" name="tabs">
 import {ref, reactive} from 'vue';
-import {ElMessage, ElMessageBox} from 'element-plus';
-import {Delete, Edit, Search, Plus} from '@element-plus/icons-vue';
+import {ElMessage, ElMessageBox} from 'element-plus'
+import {Briefcase, DeleteFilled, ShoppingCartFull, Loading, GoodsFilled, Promotion} from '@element-plus/icons-vue';
 import {fetchData} from '../api/index';
 import request from "../request";
 import type {FormInstance, FormRules} from 'element-plus';

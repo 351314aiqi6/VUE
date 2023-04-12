@@ -139,15 +139,18 @@
 import Schart from 'vue-schart';
 import {reactive} from 'vue';
 import imgurl from '../assets/img/img.jpg';
-import { ref} from 'vue';
+import {ref} from 'vue';
+import avatar from '../assets/img/img.jpg';
 
 // 头像图片
-const avatarImg = ref();
+const avatarImg = ref(avatar);
 const user: string | null = localStorage.getItem('userInfo');
 if (user != null) {
   // 解析用户信息
   const dbUser = JSON.parse(user);
-  avatarImg.value = dbUser.userAvatar;
+  if (dbUser.userAvatar != null) {
+    avatarImg.value = dbUser.userAvatar;
+  }
 }
 
 const name = localStorage.getItem('ms_username');

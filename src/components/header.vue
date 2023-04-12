@@ -52,6 +52,7 @@ import {useRouter} from 'vue-router';
 import imgurl from '../assets/img/img.jpg';
 import {reactive, ref} from 'vue';
 import request from "../request";
+import avatar from '../assets/img/img.jpg';
 
 const username: string | null = localStorage.getItem('ms_username');
 const message: number = 2;
@@ -80,12 +81,14 @@ const handleCommand = (command: string) => {
 };
 
 // 头像图片
-const avatarImg = ref();
+const avatarImg = ref(imgurl);
 const user: string | null = localStorage.getItem('userInfo');
 if (user != null) {
   // 解析用户信息
   const dbUser = JSON.parse(user);
-  avatarImg.value = dbUser.userAvatar;
+  if(dbUser.userAvatar !=null){
+    avatarImg.value = dbUser.userAvatar;
+  }
 }
 
 </script>
