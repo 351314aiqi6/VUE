@@ -26,8 +26,16 @@
         <el-table-column prop="performUrl" style="width: 12%" label="直播链接" align="center"></el-table-column>
         <el-table-column prop="applyNumber" width="90" label="预约人数" align="center"></el-table-column>
         <el-table-column prop="applyMaxNumber" width="90" label="最大预约数" align="center"></el-table-column>
-        <el-table-column prop="performStartDttm" style="width: 12%" label="开始时间" align="center"></el-table-column>
-        <el-table-column prop="performEndDttm" width="160" label="结束时间" align="center"></el-table-column>
+        <el-table-column label="添加时间" width="240px">
+          <template #default="scope">{{
+              formatDate({'date': scope.row.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+            }}</template>
+        </el-table-column>
+        <el-table-column  label="最近修改时间" width="240px">
+          <template #default="scope">{{
+              formatDate({'date': scope.row.updateTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+            }}</template>
+        </el-table-column>
         <el-table-column label="操作" width="200" align="center">
           <template #default="scope">
             <el-button text :icon="Timer" v-if="scope.row.performStatus=='00' && !(scope.row.applyNumber >= scope.row.applyMaxNumber)" style="color: #ff5900;font-weight: bold"
@@ -123,6 +131,7 @@ import {fetchData} from '../api/index';
 import request from "../request";
 import type {FormInstance, FormRules} from 'element-plus';
 import QS from "qs";
+import {formatDate} from '../date.js'
 
 const clean = (obj: any) => {
   for (const objKey in obj) {

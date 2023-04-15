@@ -33,7 +33,9 @@
                 <el-form-item label="真实姓名：" style="height: 10px">{{ userInfo.userRealName }}</el-form-item>
                 <el-form-item label="主播昵称：" style="height: 10px">{{ kolInfo.kolName }}</el-form-item>
                 <el-form-item label="直播平台：" style="height: 10px">{{ kolInfo.performPlatform }}</el-form-item>
-                <el-form-item label="入驻时间：" style="height: 10px">{{ kolInfo.createTime }}</el-form-item>
+                <el-form-item label="入驻时间：" style="height: 10px">{{
+                    formatDate({'date': kolInfo.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+                  }}</el-form-item>
                 <el-form-item label="个人简介：" style="height: 25px">{{ kolInfo.kolIntroduce }}</el-form-item>
               </el-form>
               <div style="margin: 15px 0 10px;font-size: 18px;font-weight: 500; color: #262626;">您已经完成了 <span
@@ -204,6 +206,7 @@ import {
 } from '@element-plus/icons-vue';
 import QS from 'qs';
 import type {FormInstance, FormRules} from 'element-plus';
+import {formatDate} from '../date.js'
 
 interface UserInfo {
   id: string

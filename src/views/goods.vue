@@ -28,8 +28,16 @@
         <el-table-column prop="goodsDesc" width="100" label="商品描述"></el-table-column>
         <el-table-column prop="goodsPrice" width="100" label="商品价格"></el-table-column>
         <el-table-column prop="goodsStock" width="100" label="商品库存"></el-table-column>
-        <el-table-column prop="createTime" width="150" label="创建时间"></el-table-column>
-        <el-table-column prop="updateTime" width="150" label="最近修改时间"></el-table-column>
+        <el-table-column label="添加时间" width="240px">
+          <template #default="scope">{{
+              formatDate({'date': scope.row.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+            }}</template>
+        </el-table-column>
+        <el-table-column  label="最近修改时间" width="240px">
+          <template #default="scope">{{
+              formatDate({'date': scope.row.updateTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+            }}</template>
+        </el-table-column>
         <el-table-column label="操作" width="200" align="center">
           <template #default="scope">
             <el-button text :icon="Edit" @click="handleEdit(scope.$index, scope.row)" v-permiss="15"
@@ -144,6 +152,7 @@ import {fetchData} from '../api/index';
 import request from "../request";
 import type {FormInstance, FormRules} from 'element-plus';
 import QS from "qs";
+import {formatDate} from '../date.js'
 
 const clean = (obj: any) => {
   for (const objKey in obj) {

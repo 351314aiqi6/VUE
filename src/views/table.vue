@@ -14,7 +14,7 @@
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
         <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
         <el-table-column prop="chnlAgentId" width="140" label="渠道商编号"></el-table-column>
-        <el-table-column label="渠道商名称2">
+        <el-table-column label="渠道商名称" width="150px">
           <template #default="scope">{{ scope.row.chnlAgentName }}</template>
         </el-table-column>
         <!--				<el-table-column label="头像(查看大图)" align="center">-->
@@ -29,12 +29,20 @@
         <!--						</el-image>-->
         <!--					</template>-->
         <!--				</el-table-column>-->
-        <el-table-column prop="userId" label="所属用户"></el-table-column>
-        <el-table-column prop="chnlAgentEmail" label="渠道商邮箱"></el-table-column>
-        <el-table-column prop="chnlAgentAddress" label="渠道商地址"></el-table-column>
-        <el-table-column prop="chnlAgentMobilePhone" label="渠道商电话"></el-table-column>
-        <el-table-column prop="createTime" label="注册时间"></el-table-column>
-        <el-table-column prop="updateTime" label="最近修改时间"></el-table-column>
+        <el-table-column prop="userId" width="100px" label="所属用户"></el-table-column>
+        <el-table-column prop="chnlAgentEmail" width="200px" label="渠道商邮箱"></el-table-column>
+        <el-table-column prop="chnlAgentAddress" width="150px" label="渠道商地址"></el-table-column>
+        <el-table-column prop="chnlAgentMobilePhone" width="120px" label="渠道商电话"></el-table-column>
+        <el-table-column label="注册时间" width="240px">
+          <template #default="scope">{{
+              formatDate({'date': scope.row.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+            }}</template>
+        </el-table-column>
+        <el-table-column  label="最近修改时间" width="240px">
+          <template #default="scope">{{
+              formatDate({'date': scope.row.updateTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+            }}</template>
+        </el-table-column>
         <!--				<el-table-column label="状态" align="center">-->
         <!--					<template #default="scope">-->
         <!--						<el-tag-->
@@ -137,6 +145,7 @@ import {fetchData} from '../api/index';
 import request from "../request";
 import type {FormInstance, FormRules} from 'element-plus';
 import QS from "qs";
+import {formatDate} from '../date.js'
 
 const clean = (obj: any) => {
   for (const objKey in obj) {

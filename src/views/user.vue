@@ -21,8 +21,13 @@
             <div>用户邮箱：{{ param.userEmail }}</div>
             <div>用户地址：{{ param.userAddress }}</div>
             <div class="info-name">个人简介：{{ param.userAdditional }}</div>
-            <div class="info-name">用户创建时间：{{ param.createTime }}</div>
-            <div class="info-name">用户最近修改时间：{{ param.updateTime }}</div>
+            <div class="info-name">用户创建时间：{{
+                formatDate({'date': param.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+              }}
+            </div>
+            <div class="info-name">用户最近修改时间：{{
+                formatDate({'date': param.updateTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
+              }}</div>
           </div>
         </el-card>
       </el-col>
@@ -93,6 +98,7 @@ import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
 import avatar from '../assets/img/img.jpg';
 import request from "../request";
+import {formatDate} from '../date.js'
 import {ElMessage} from "element-plus";
 import {User} from '@element-plus/icons-vue';
 import QS from "qs";
@@ -149,7 +155,7 @@ param.userEmail = dbUser.userEmail;
 param.userMobilePhone = dbUser.userMobilePhone;
 param.createTime = dbUser.createTime;
 param.updateTime = dbUser.updateTime;
-if(dbUser.userAvatar!=null){
+if (dbUser.userAvatar != null) {
   avatarImg.value = dbUser.userAvatar;
 }
 // 获取用户名
@@ -252,7 +258,7 @@ const saveAvatar = () => {
       ElMessage.error('修改失败:' + message);
     }
   }).catch(function (error) {
-    ElMessage.error('修改失败:'+JSON.stringify(error));
+    ElMessage.error('修改失败:' + JSON.stringify(error));
   })
 
 };
