@@ -94,7 +94,7 @@
 <!--编辑图片-->
         <el-form-item prop="img" class="upload" label="农产品图片:">
           <div class="info-image" @click="showImglog">
-            <el-avatar :size="45" :src="goodsImg"/>
+            <el-avatar :size="45" :src="editFormParam.goodsImage"/>
           </div>
             <el-button size="small" type="primary" @click="showImglog">上传图片</el-button>
         </el-form-item>
@@ -140,10 +140,10 @@
         </el-form-item>
 <!--新增图片-->
         <el-form-item prop="img" class="upload" label="农产品图片:">
-          <div class="info-image" @click="showImglog">
-            <el-avatar :size="45" :src="goodsImg"/>
+          <div class="info-image"  @click="showAddImglog">
+            <el-avatar :size="45" :src="addFormParam.goodsImage"/>
           </div>
-          <el-button size="small" type="primary" @click="showImglog">点击上传</el-button>
+          <el-button size="small" type="primary" @click="showAddImglog">点击上传</el-button>
         </el-form-item>
 
         <el-form-item label="农产品名称:" prop="goodsName">
@@ -183,6 +183,26 @@
 						<input class="crop-input" type="file" name="image" accept="image/*" @change="setImage"/>
 					</el-button>
 					<el-button type="primary" @click="saveAvatar">上传并保存</el-button>
+				</span>
+      </template>
+    </el-dialog>
+
+    <el-dialog title="裁剪图片" v-model="addImageVisible" width="600px">
+      <vue-cropper
+          ref="addCropper"
+          :src="addImgSrc"
+          :ready="addCropImage"
+          :zoom="addCropImage"
+          :cropmove="addCropImage"
+          style="width: 100%; height: 400px"
+      ></vue-cropper>
+
+      <template #footer>
+				<span class="dialog-footer">
+					<el-button class="crop-demo-btn" type="primary" @change="setAddImage">选择图片
+						<input class="crop-input" type="file" name="image" accept="image/*" @change="setAddImage"/>
+					</el-button>
+					<el-button type="primary" @click="saveAddAvatar">上传并保存</el-button>
 				</span>
       </template>
     </el-dialog>
@@ -428,6 +448,7 @@ const handleAdd = () => {
   // 加载渠道信息
   loadMer()
   // 显示新增视窗
+  addFormParam.goodsImage = goodsImg.value;
   addVisible.value = true;
 };
 
@@ -435,7 +456,7 @@ const saveAdd = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
-      addFormParam.goodsImage = goodsImg.value;
+      // addFormParam.goodsImage = goodsImg.value;
       request.post("/goods/add", QS.stringify(addFormParam)).then(function (response) {
         // 返回响应码
         const code = response.data.code;
@@ -490,6 +511,7 @@ const handleEdit = (index: number, row: any) => {
   idx = index;
   editVisible.value = true;
   editFormParam = row;
+  imgSrc.value = editFormParam.goodsImage;
 };
 
 const saveEdit = () => {
@@ -591,7 +613,6 @@ const cropper: any = ref();
 
 const showImglog = () => {
   dialogVisible.value = true;
-  imgSrc.value = goodsImg.value;
 };
 
 const setImage = (e: any) => {
@@ -613,33 +634,44 @@ const cropImage = () => {
 };
 
 const saveAvatar = () =>{
-  // editFormParam.goodsImage = cropImg.value;
-  //
-  // request.post("/goods/replaceGoodsImage", new URLSearchParams(editFormParam)).then(function (response) {
-  //   // 返回响应码
-  //   const code = response.data.code;
-  //   // 返回响应描述
-  //   const message = response.data.message;
-  //   // 返回数据
-  //   const result = response.data.result;
-  //   // 0代表交易成功
-  //   if (code == 0) {
-  //     ElMessage.success('修改成功');
-  //     goodsImg.value = cropImg.value;
-  //     dbGoods.goodsImage = cropImg.value;
-  //     dialogVisible.value = false;
-  //     // 用户信息
-  //     localStorage.setItem('userInfo', JSON.stringify(dbGoods));
-  //   } else {
-  //     // 交易失败
-  //     ElMessage.error('修改失败:' + message);
-  //   }
-  // }).catch(function (error) {
-  //   ElMessage.error('修改失败:' + JSON.stringify(error));
-  // })
   goodsImg.value = cropImg.value;
   dialogVisible.value = false;
   editFormParam.goodsImage = goodsImg.value;
+};
+
+
+// 图像来源
+const addImgSrc = ref('');
+const addCropImg = ref('');
+const addImageVisible = ref(false);
+const addCropper: any = ref();
+
+const showAddImglog = () => {
+  addImgSrc.value = goodsImg.value;
+  addImageVisible.value = true;
+};
+
+const setAddImage = (e: any) => {
+  const file = e.target.files[0];
+  if (!file.type.includes('image/')) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (event: any) => {
+    addImageVisible.value = true;
+    addImgSrc.value = event.target.result;
+    addCropper.value && addCropper.value.replace(event.target.result);
+  };
+  reader.readAsDataURL(file);
+};
+
+const addCropImage = () => {
+  addCropImg.value = addCropper.value.getCroppedCanvas().toDataURL();
+};
+
+const saveAddAvatar = () =>{
+  addImageVisible.value = false;
+  addFormParam.goodsImage = addCropImg.value;
 };
 </script>
 
