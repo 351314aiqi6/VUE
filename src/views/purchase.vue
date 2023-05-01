@@ -6,30 +6,30 @@
           <el-radio-group v-model="form.resourceType" @change="selectGoods">
             <el-radio label="01">按类型</el-radio>
             <el-radio label="02">按供应商</el-radio>
-            <el-radio label="03">按商品ID</el-radio>
+            <el-radio label="03">按农产品ID</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="商品选择" prop="options" v-model="selectFrameVisible" v-if="selectFrameVisible==true">
+        <el-form-item label="农产品选择" prop="options" v-model="selectFrameVisible" v-if="selectFrameVisible==true">
           <el-cascader :options="goodsOptions.value" v-model="form.goodsOption" @change="queryOneGoods1"
                        style="width: 70%"></el-cascader>
         </el-form-item>
-        <el-form-item v-model="inputGoodsIdVisible" v-if="inputGoodsIdVisible==true" label="商品ID" prop="goodsId">
-          <el-input v-model="form.goodsId" placeholder="请输入商品ID" @change="queryOneGoods"
+        <el-form-item v-model="inputGoodsIdVisible" v-if="inputGoodsIdVisible==true" label="农产品ID" prop="goodsId">
+          <el-input v-model="form.goodsId" placeholder="请输入农产品ID" @change="queryOneGoods"
                     style="width: 200px"></el-input>
         </el-form-item>
         <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="被采购方">
           <el-input v-model="form.payeeUserId" style="width: 70%" disabled="true"></el-input>
         </el-form-item>
-        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="商品单价">
+        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="农产品单价">
           <el-input v-model="form.goodsPrice" style="width: 70%" disabled="true"></el-input>
         </el-form-item>
-        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="商品库存">
+        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="农产品库存">
           <el-input v-model="form.goodsStock" style="width: 70%" disabled="true"></el-input>
         </el-form-item>
-        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="商品名称">
+        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="农产品名称">
           <el-input v-model="form.goodsName" style="width: 70%" disabled="true"></el-input>
         </el-form-item>
-        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="商品归属">
+        <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="农产品归属">
           <el-input v-model="form.merchantId" style="width: 70%" disabled="true"></el-input>
         </el-form-item>
         <el-form-item v-model="goodsInfoVisible" v-if="goodsInfoVisible==true" label="采购数量" prop="purchaseNumber">
@@ -38,13 +38,13 @@
         <el-form-item label="采购总金额" prop="totalPrice" v-model="goodsInfoVisible" v-if="goodsInfoVisible==true">
           <el-input v-model="form.totalPrice" disabled="true" style="width: 70%" readonly="true"></el-input>
         </el-form-item>
-        <el-form-item label="收获人地址" prop="receiveAddress">
+        <el-form-item label="收货人地址" prop="receiveAddress">
           <el-input v-model="form.receiveAddress" style="width: 70%"></el-input>
         </el-form-item>
-        <el-form-item label="收获人姓名" prop="receiveName">
+        <el-form-item label="收货人姓名" prop="receiveName">
           <el-input v-model="form.receiveName" style="width: 70%"></el-input>
         </el-form-item>
-        <el-form-item label="收获人电话" prop="receivePhone">
+        <el-form-item label="收货人电话" prop="receivePhone">
           <el-input v-model="form.receivePhone" style="width: 70%"></el-input>
         </el-form-item>
         <el-form-item label="采购备注信息" prop="desc">
@@ -98,12 +98,12 @@ const goodsOptions = reactive({
   value: []
 });
 const rules: FormRules = {
-  goodsId: [{required: true, message: '请选择采购商品', trigger: 'blur'}],
+  goodsId: [{required: true, message: '请选择采购农产品', trigger: 'blur'}],
   purchaseNumber: [{required: true, message: '请输入采购数量', trigger: 'blur'}],
   totalPrice: [{required: true, message: '请输入采购数量', trigger: 'blur'}],
-  receiveAddress: [{required: true, message: '请输入收获地址', trigger: 'blur'}],
+  receiveAddress: [{required: true, message: '请输入收货地址', trigger: 'blur'}],
   receiveName: [{required: true, message: '请输入收货人姓名', trigger: 'blur'}],
-  receivePhone: [{required: true, message: '请输入收获人电话', trigger: 'blur'}],
+  receivePhone: [{required: true, message: '请输入收货人电话', trigger: 'blur'}],
 };
 const formRef = ref<FormInstance>();
 const form = reactive({
@@ -180,10 +180,10 @@ const queryOneGoods = () => {
       form.merchantId = result.merchantId;
       // 隐藏格子注意可见
       goodsInfoVisible.value = true;
-      ElMessage.success('加载商品数据成功');
+      ElMessage.success('加载农产品数据成功');
     }
   }).catch(function (error) {
-    ElMessage.error('加载渠道商品数据失败：系统内部错误！');
+    ElMessage.error('加载渠道农产品数据失败：系统内部错误！');
   })
 }
 

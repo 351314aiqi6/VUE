@@ -71,12 +71,12 @@ const items = [
       {
         index: '/table',
         title: '渠道商',
-        permiss: '2',
+        permiss: '3',
       },
       {
         index: '/merTable',
-        title: '商户管理',
-        permiss: '2',
+        title: '农户管理',
+        permiss: '4',
       },
       // {
       //   index: '/import',
@@ -85,8 +85,8 @@ const items = [
       // },
       {
         index: '/goods',
-        title: '商品管理',
-        permiss: '2',
+        title: '农产品管理',
+        permiss: '5',
       },
       // {
       //   index: '/export',
@@ -100,17 +100,17 @@ const items = [
     icon: 'Edit',
     index: '3',
     title: '采购管理',
-    permiss: '4',
+    permiss: '6',
     subs: [
       {
         index: '/purchase',
         title: '采购申请',
-        permiss: '5',
+        permiss: '7',
       },
       {
         index: '/purchaseList',
         title: '采购处理',
-        permiss: '5',
+        permiss: '8',
       },
       // {
       //   index: '/form',
@@ -145,40 +145,40 @@ const items = [
     icon: 'VideoCameraFilled',
     index: '4',
     title: '直播管理',
-    permiss: '3',
+    permiss: '9',
     subs: [
       {
         index: '/performKol',
         title: '主播信息',
-        permiss: '5',
+        permiss: '10',
       },
       {
         index: '/performList',
         title: '直播广场',
-        permiss: '5',
+        permiss: '11',
       },
       {
         index: '/myPerform',
         title: '我的直播',
-        permiss: '5',
+        permiss: '12',
       },
     ],
   },
   {
     icon: 'DocumentCopy',
     index: '2',
-    title: '邮箱管理',
-    permiss: '3',
+    title: '服务评价',
+    permiss: '13',
     subs: [
       {
         index: '/message',
         title: '信件发送',
-        permiss: '5',
+        permiss: '14',
       },
       {
         index: '/messageList',
         title: '信件邮箱',
-        permiss: '5',
+        permiss: '15',
       },
     ],
   },
@@ -192,14 +192,14 @@ const items = [
   {
     icon: 'PieChart',
     index: '/charts',
-    title: '销售现状',
-    permiss: '11',
+    title: '行情管理',
+    permiss: '16',
   },
   {
     icon: 'Warning',
     index: '/permission',
     title: '权限管理',
-    permiss: '13',
+    permiss: '17',
   },
   // {
   //   icon: 'CoffeeCup',

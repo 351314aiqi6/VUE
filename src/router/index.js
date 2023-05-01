@@ -25,7 +25,7 @@ const routes = [
                 name: 'basetable',
                 meta: {
                     title: '渠道商',
-                    permiss: '2',
+                    permiss: '3',
                 },
                 component: () => import(/* webpackChunkName: "table" */ '../views/table.vue'),
             },
@@ -33,8 +33,8 @@ const routes = [
                 path: '/merTable',
                 name: 'merTable',
                 meta: {
-                    title: '商户管理',
-                    permiss: '2',
+                    title: '农户管理',
+                    permiss: '4',
                 },
                 component: () => import(/* webpackChunkName: "table" */ '../views/merTable.vue'),
             },
@@ -42,8 +42,8 @@ const routes = [
                 path: '/goods',
                 name: 'goods',
                 meta: {
-                    title: '商品管理',
-                    permiss: '2',
+                    title: '农产品管理',
+                    permiss: '5',
                 },
                 component: () => import(/* webpackChunkName: "table" */ '../views/goods.vue'),
             },
@@ -51,8 +51,8 @@ const routes = [
                 path: '/charts',
                 name: 'basecharts',
                 meta: {
-                    title: '图表',
-                    permiss: '11',
+                    title: '行情管理',
+                    permiss: '16',
                 },
                 component: () => import(/* webpackChunkName: "charts" */ '../views/charts.vue'),
             },
@@ -61,7 +61,7 @@ const routes = [
                 name: 'purchase',
                 meta: {
                     title: '采购申请',
-                    permiss: '5',
+                    permiss: '7',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/purchase.vue'),
             },
@@ -70,7 +70,7 @@ const routes = [
                 name: 'purchaseList',
                 meta: {
                     title: '采购处理',
-                    permiss: '5',
+                    permiss: '8',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/purchaseList.vue'),
             },
@@ -79,7 +79,7 @@ const routes = [
                 name: 'messageList',
                 meta: {
                     title: '信件邮箱',
-                    permiss: '5',
+                    permiss: '15',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/messageList.vue'),
             },
@@ -88,7 +88,7 @@ const routes = [
                 name: 'message',
                 meta: {
                     title: '信件发送',
-                    permiss: '5',
+                    permiss: '14',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/message.vue'),
             },
@@ -97,7 +97,7 @@ const routes = [
                 name: 'performKol',
                 meta: {
                     title: '主播信息',
-                    permiss: '5',
+                    permiss: '10',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/peformKol.vue'),
             },
@@ -105,8 +105,8 @@ const routes = [
                 path: '/performList',
                 name: 'performList',
                 meta: {
-                    title: '主播广场',
-                    permiss: '5',
+                    title: '直播广场',
+                    permiss: '11',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/performList.vue'),
             },
@@ -115,64 +115,64 @@ const routes = [
                 name: 'myPerform',
                 meta: {
                     title: '我的直播',
-                    permiss: '5',
+                    permiss: '12',
                 },
                 component: () => import(/* webpackChunkName: "form" */ '../views/myPerform.vue'),
             },
-            {
-                path: '/form',
-                name: 'baseform',
-                meta: {
-                    title: '表单',
-                    permiss: '5',
-                },
-                component: () => import(/* webpackChunkName: "form" */ '../views/form.vue'),
-            },
-            {
-                path: '/tabs',
-                name: 'tabs',
-                meta: {
-                    title: 'tab标签',
-                    permiss: '3',
-                },
-                component: () => import(/* webpackChunkName: "tabs" */ '../views/tabs.vue'),
-            },
-            {
-                path: '/donate',
-                name: 'donate',
-                meta: {
-                    title: '鼓励作者',
-                    permiss: '14',
-                },
-                component: () => import(/* webpackChunkName: "donate" */ '../views/donate.vue'),
-            },
+            // {
+            //     path: '/form',
+            //     name: 'baseform',
+            //     meta: {
+            //         title: '表单',
+            //         permiss: '5',
+            //     },
+            //     component: () => import(/* webpackChunkName: "form" */ '../views/form.vue'),
+            // },
+            // {
+            //     path: '/tabs',
+            //     name: 'tabs',
+            //     meta: {
+            //         title: 'tab标签',
+            //         permiss: '3',
+            //     },
+            //     component: () => import(/* webpackChunkName: "tabs" */ '../views/tabs.vue'),
+            // },
+            // {
+            //     path: '/donate',
+            //     name: 'donate',
+            //     meta: {
+            //         title: '鼓励作者',
+            //         permiss: '14',
+            //     },
+            //     component: () => import(/* webpackChunkName: "donate" */ '../views/donate.vue'),
+            // },
             {
                 path: '/permission',
                 name: 'permission',
                 meta: {
                     title: '权限管理',
-                    permiss: '13',
+                    permiss: '17',
                 },
                 component: () => import(/* webpackChunkName: "permission" */ '../views/permission.vue'),
             },
-            {
-                path: '/upload',
-                name: 'upload',
-                meta: {
-                    title: '上传插件',
-                    permiss: '6',
-                },
-                component: () => import(/* webpackChunkName: "upload" */ '../views/upload.vue'),
-            },
-            {
-                path: '/icon',
-                name: 'icon',
-                meta: {
-                    title: '自定义图标',
-                    permiss: '10',
-                },
-                component: () => import(/* webpackChunkName: "icon" */ '../views/icon.vue'),
-            },
+            // {
+            //     path: '/upload',
+            //     name: 'upload',
+            //     meta: {
+            //         title: '上传插件',
+            //         permiss: '6',
+            //     },
+            //     component: () => import(/* webpackChunkName: "upload" */ '../views/upload.vue'),
+            // },
+            // {
+            //     path: '/icon',
+            //     name: 'icon',
+            //     meta: {
+            //         title: '自定义图标',
+            //         permiss: '10',
+            //     },
+            //     component: () => import(/* webpackChunkName: "icon" */ '../views/icon.vue'),
+            // },
             {
                 path: '/user',
                 name: 'user',
@@ -181,42 +181,42 @@ const routes = [
                 },
                 component: () => import(/* webpackChunkName: "user" */ '../views/user.vue'),
             },
-            {
-                path: '/editor',
-                name: 'editor',
-                meta: {
-                    title: '富文本编辑器',
-                    permiss: '8',
-                },
-                component: () => import(/* webpackChunkName: "editor" */ '../views/editor.vue'),
-            },
-            {
-                path: '/markdown',
-                name: 'markdown',
-                meta: {
-                    title: 'markdown编辑器',
-                    permiss: '9',
-                },
-                component: () => import(/* webpackChunkName: "markdown" */ '../views/markdown.vue'),
-            },
-            {
-                path: '/export',
-                name: 'export',
-                meta: {
-                    title: '导出Excel',
-                    permiss: '2',
-                },
-                component: () => import(/* webpackChunkName: "export" */ '../views/export.vue'),
-            },
-            {
-                path: '/import',
-                name: 'import',
-                meta: {
-                    title: '导入Excel',
-                    permiss: '2',
-                },
-                component: () => import(/* webpackChunkName: "import" */ '../views/import.vue'),
-            },
+            // {
+            //     path: '/editor',
+            //     name: 'editor',
+            //     meta: {
+            //         title: '富文本编辑器',
+            //         permiss: '8',
+            //     },
+            //     component: () => import(/* webpackChunkName: "editor" */ '../views/editor.vue'),
+            // },
+            // {
+            //     path: '/markdown',
+            //     name: 'markdown',
+            //     meta: {
+            //         title: 'markdown编辑器',
+            //         permiss: '9',
+            //     },
+            //     component: () => import(/* webpackChunkName: "markdown" */ '../views/markdown.vue'),
+            // },
+            // {
+            //     path: '/export',
+            //     name: 'export',
+            //     meta: {
+            //         title: '导出Excel',
+            //         permiss: '2',
+            //     },
+            //     component: () => import(/* webpackChunkName: "export" */ '../views/export.vue'),
+            // },
+            // {
+            //     path: '/import',
+            //     name: 'import',
+            //     meta: {
+            //         title: '导入Excel',
+            //         permiss: '2',
+            //     },
+            //     component: () => import(/* webpackChunkName: "import" */ '../views/import.vue'),
+            // },
         ],
     },
     {

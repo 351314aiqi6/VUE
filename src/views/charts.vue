@@ -1,130 +1,127 @@
 <template>
 	<div class="container">
-<!--		<div class="plugins-tips">-->
-<!--			vue-schart：vue.js封装sChart.js的图表组件。 访问地址：-->
-<!--			<a href="https://github.com/lin-xin/vue-schart" target="_blank">vue-schart</a>-->
-<!--		</div>-->
     <div class="plugins-tips">
-     各商品销量的汇总比例图
+      <div>
+        产品名称<el-input class="quoinfo" v-model="query.goodsName"></el-input>
+        <el-button icon="Search" @click="quosearch">搜索</el-button>
+      </div>
     </div>
-		<div class="schart-box">
-			<div class="content-title">柱状图</div>
-			<schart class="schart" canvasId="bar" :options="options1"></schart>
-		</div>
-		<div class="schart-box">
-			<div class="content-title">折线图</div>
-			<schart class="schart" canvasId="line" :options="options2"></schart>
-		</div>
-		<div class="schart-box">
-			<div class="content-title">饼状图</div>
-			<schart class="schart" canvasId="pie" :options="options3"></schart>
-		</div>
-		<div class="schart-box">
-			<div class="content-title">环形图</div>
-			<schart class="schart" canvasId="ring" :options="options4"></schart>
-		</div>
+    <div id="chart" style="width:800px;height:400px;">
+
+    </div>
 	</div>
 </template>
 
 <script setup lang="ts" name="basecharts">
-import Schart from 'vue-schart';
+import * as echarts from 'echarts';
+import $ from 'jQuery';
+import request from "../request";
+import QS from "qs";
+import {ElMessage} from "element-plus";
+import {reactive, ref} from 'vue';
+import {data} from "jquery";
 
-const options1 = {
-	type: 'bar',
-	title: {
-		text: '最近一周各品类销售图'
-	},
-	bgColor: '#fbfbfb',
-	labels: ['周一', '周二', '周三', '周四', '周五'],
-	datasets: [
-		{
-			label: '家电',
-			fillColor: 'rgba(241, 49, 74, 0.5)',
-			data: [234, 278, 270, 190, 230]
-		},
-		{
-			label: '百货',
-			data: [164, 178, 190, 135, 160]
-		},
-		{
-			label: '食品',
-			data: [144, 198, 150, 235, 120]
-		}
-	]
-};
-const options2 = {
-	type: 'line',
-	title: {
-		text: '最近几个月各品类销售趋势图'
-	},
-	bgColor: '#fbfbfb',
-	labels: ['6月', '7月', '8月', '9月', '10月'],
-	datasets: [
-		{
-			label: '家电',
-			data: [234, 278, 270, 190, 230]
-		},
-		{
-			label: '百货',
-			data: [164, 178, 150, 135, 160]
-		},
-		{
-			label: '食品',
-			data: [114, 138, 200, 235, 190]
-		}
-	]
-};
-const options3 = {
-	type: 'pie',
-	title: {
-		text: '服装品类销售饼状图'
-	},
-	legend: {
-		position: 'left'
-	},
-	bgColor: '#fbfbfb',
-	labels: ['T恤', '牛仔裤', '连衣裙', '毛衣', '七分裤', '短裙', '羽绒服'],
-	datasets: [
-		{
-			data: [334, 278, 190, 235, 260, 200, 141]
-		}
-	]
-};
-const options4 = {
-	type: 'ring',
-	title: {
-		text: '环形三等分'
-	},
-	showValue: false,
-	legend: {
-		position: 'bottom',
-		bottom: 40
-	},
-	bgColor: '#fbfbfb',
-	labels: ['vue', 'react', 'angular'],
-	datasets: [
-		{
-			data: [500, 500, 500]
-		}
-	]
-};
+const query = reactive({
+  goodsName:"",
+  quotationValue:""
+});
+
+interface goodsInfo{
+  goodsName:string;
+  quotationValue:string
+}
+
+
+const goodsselect = ref<goodsInfo[]>([]);
+const quotation = () => {
+  request.get(`/quotation/selquoList?${QS.stringify(query)}`).then(function (response){
+
+  const code = response.data.code;
+  const message = response.data.message;
+    if (code != 0) {
+      ElMessage.error('请求错误' + message);
+    }else{
+      let result = response.data.result;
+      console.log("result",result);
+      goodsselect.value = response.data.result;
+      console.log(response.data.result);
+      if (query.goodsName == result.goodsName){
+        query.quotationValue = result.quotationValue;
+        ElMessage.success('搜索行情成功');
+      }
+      if(result[0]?.quotationValue){
+        let arr =  result[0].quotationValue.split(/[,，]/g)
+        updateChartData(arr)
+      }
+
+      // console.log(result.goodsName);
+    }
+  }).catch(function (error) {
+    console.log(error);
+    ElMessage.error('行情请求失败：系统内部错误！');
+  });
+}
+
+const quosearch = () =>{
+  const data = quotation();
+
+}
+
+const updateChartData = (data:number[]= Array.from({length:7},()=>0))=>{
+    const option = {
+      title: {
+        text: '周期行情图'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
+          },
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          boundaryGap: false,
+          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
+      series: [
+        {
+          name: '价格波动',
+          type: 'line',
+          stack: '总量',
+          areaStyle: {},
+          data: data
+        },
+      ],
+    };
+    let chart = echarts.getInstanceByDom(document.getElementById("chart") as HTMLEmbedElement)
+    if (chart == null){
+      chart = echarts.init(document.getElementById('chart') as HTMLDivElement);
+    }
+    chart.setOption(option);
+}
+
+// 初始化
+// updateChartData()
+
 </script>
-
 <style scoped>
-.schart-box {
-	display: inline-block;
-	margin: 20px;
-}
-.schart {
-	width: 600px;
-	height: 400px;
-}
-.content-title {
-	clear: both;
-	font-weight: 400;
-	line-height: 50px;
-	margin: 10px 0;
-	font-size: 22px;
-	color: #1f2f3d;
+.quoinfo{
+  width: 20%;
 }
 </style>

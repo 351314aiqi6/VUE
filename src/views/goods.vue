@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <div class="handle-box">
-        <el-select v-model="query.goodsTypeId" placeholder="请选择商品类型" class="handle-select mr10">
+        <el-select v-model="query.goodsTypeId" placeholder="请选择农产品类型" class="handle-select mr10">
           <el-option v-for="item in goodsTypeList" :label="item.goodsTypeName" :value="item.goodsTypeId"
                      :key="item.id"></el-option>
         </el-select>
@@ -10,24 +10,33 @@
                   width="100"></el-input>
         <el-input v-model="query.userId" placeholder="请输入用户编号" class="handle-input-180 mr10 wd80"
                   width="100"></el-input>
-        <el-input v-model="query.merchantId" placeholder="请输入商户编号" class="handle-input-180 mr10 wd80"
+        <el-input v-model="query.merchantId" placeholder="请输入农户编号" class="handle-input-180 mr10 wd80"
                   width="100"></el-input>
-        <el-input v-model="query.goodsId" placeholder="请输入商品编号" class="handle-input-180 mr10 wd80"
+        <el-input v-model="query.goodsId" placeholder="请输入农产品编号" class="handle-input-180 mr10 wd80"
                   width="100"></el-input>
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </div>
       <el-table :data="goodsList" border class="table" header-cell-class-name="table-header">
-        <el-table-column prop="id" label="序号" align="center"></el-table-column>
-        <el-table-column prop="goodsId" width="100" label="商品编号"></el-table-column>
-        <el-table-column prop="merchantId" width="100" label="商户编号"></el-table-column>
+<!--        <el-table-column prop="id" label="序号" align="center"></el-table-column>-->
+        <el-table-column prop="goodsId" width="100" label="农产品编号"></el-table-column>
+        <el-table-column prop="merchantId" width="100" label="农户编号"></el-table-column>
         <el-table-column prop="chnlAgentId" width="100" label="渠道商号"></el-table-column>
         <el-table-column prop="chnlUserId" width="100" label="用户编号"></el-table-column>
-        <el-table-column prop="goodsName" width="100" label="商品名称"></el-table-column>
-        <el-table-column prop="goodsType" width="100" label="商品类型"></el-table-column>
-        <el-table-column prop="goodsDesc" width="100" label="商品描述"></el-table-column>
-        <el-table-column prop="goodsPrice" width="100" label="商品价格"></el-table-column>
-        <el-table-column prop="goodsStock" width="100" label="商品库存"></el-table-column>
+
+        <el-table-column prop="goodsImage" class="upload" label="农产品图片">
+          <template #default="scope">
+            <div class="info-image">
+              <el-avatar :size="45" :src="scope.row.goodsImage" shape="square"/>
+            </div>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="goodsName" width="100" label="农产品名称"></el-table-column>
+        <el-table-column prop="goodsType" width="100" label="农产品类型"></el-table-column>
+        <el-table-column prop="goodsDesc" width="100" label="农产品描述"></el-table-column>
+        <el-table-column prop="goodsPrice" width="100" label="农产品价格"></el-table-column>
+        <el-table-column prop="goodsStock" width="100" label="农产品库存"></el-table-column>
         <el-table-column label="添加时间" width="240px">
           <template #default="scope">{{
               formatDate({'date': scope.row.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
@@ -67,10 +76,10 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-model="editVisible" width="40%">
       <el-form label-width="120px">
-        <el-form-item class="info-name" label="商品编号:">
+        <el-form-item class="info-name" label="农产品编号:">
           {{ editFormParam.goodsId }}
         </el-form-item>
-        <el-form-item class="info-name" label="商品类型:">
+        <el-form-item class="info-name" label="农产品类型:">
           {{ editFormParam.goodsType }}
         </el-form-item>
         <el-form-item class="info-name" label="用户编号:">
@@ -79,19 +88,27 @@
         <el-form-item class="info-name" label="渠道商编号:">
           {{ editFormParam.chnlAgentId }}
         </el-form-item>
-        <el-form-item class="info-name" label="商户编号:">
+        <el-form-item class="info-name" label="农户编号:">
           {{ editFormParam.merchantId }}
         </el-form-item>
-        <el-form-item label="商品名称:">
+<!--编辑图片-->
+        <el-form-item prop="img" class="upload" label="农产品图片:">
+          <div class="info-image" @click="showImglog">
+            <el-avatar :size="45" :src="goodsImg"/>
+          </div>
+            <el-button size="small" type="primary" @click="showImglog">上传图片</el-button>
+        </el-form-item>
+
+        <el-form-item label="农产品名称:">
           <el-input v-model="editFormParam.goodsName"></el-input>
         </el-form-item>
-        <el-form-item label="商品描述:">
+        <el-form-item label="农产品描述:">
           <el-input v-model="editFormParam.goodsDesc"></el-input>
         </el-form-item>
-        <el-form-item label="商品价格:">
+        <el-form-item label="农产品价格:">
           <el-input v-model="editFormParam.goodsPrice"></el-input>
         </el-form-item>
-        <el-form-item label="商品库存:">
+        <el-form-item label="农产品库存:">
           <el-input v-model="editFormParam.goodsStock"></el-input>
         </el-form-item>
       </el-form>
@@ -104,33 +121,41 @@
     </el-dialog>
 
     <!-- 新增弹出框 -->
-    <el-dialog title="商品新增" v-model="addVisible" width="40%">
+    <el-dialog title="农产品新增" v-model="addVisible" width="40%">
       <el-form :model="addFormParam" :rules="addRule" ref="addForm" label-width="120px">
         <el-form-item class="info-name" label="用户编号:">
           {{ addFormParam.userId }}
         </el-form-item>
-        <el-form-item class="info-name" label="商户编号:" prop="merchantId">
-          <el-select v-model="addFormParam.merchantId" placeholder="请选择商户" class="handle-select-140 mr10">
+        <el-form-item class="info-name" label="农户编号:" prop="merchantId">
+          <el-select v-model="addFormParam.merchantId" placeholder="请选择农户" class="handle-select-140 mr10">
             <el-option v-for="item in merList" :label="item.merchantName" :value="item.merchantId"
                        :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item class="info-name" label="商品类型:" prop="goodsTypeId">
-          <el-select v-model="addFormParam.goodsTypeId" placeholder="请选择商品类型" class="handle-select-140 mr10">
+        <el-form-item class="info-name" label="农产品类型:" prop="goodsTypeId">
+          <el-select v-model="addFormParam.goodsTypeId" placeholder="请选择农产品类型" class="handle-select-140 mr10">
             <el-option v-for="item in goodsTypeList" :label="item.goodsTypeName" :value="item.goodsTypeId"
                        :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="商品名称:" prop="goodsName">
+<!--新增图片-->
+        <el-form-item prop="img" class="upload" label="农产品图片:">
+          <div class="info-image" @click="showImglog">
+            <el-avatar :size="45" :src="goodsImg"/>
+          </div>
+          <el-button size="small" type="primary" @click="showImglog">点击上传</el-button>
+        </el-form-item>
+
+        <el-form-item label="农产品名称:" prop="goodsName">
           <el-input v-model="addFormParam.goodsName"></el-input>
         </el-form-item>
-        <el-form-item label="商品描述:" prop="goodsDesc">
+        <el-form-item label="农产品描述:" prop="goodsDesc">
           <el-input v-model="addFormParam.goodsDesc"></el-input>
         </el-form-item>
-        <el-form-item label="商品价格:" prop="goodsPrice">
+        <el-form-item label="农产品价格:" prop="goodsPrice">
           <el-input v-model="addFormParam.goodsPrice"></el-input>
         </el-form-item>
-        <el-form-item label="商品库存:" prop="goodsStock">
+        <el-form-item label="农品库存:" prop="goodsStock">
           <el-input v-model="addFormParam.goodsStock"></el-input>
         </el-form-item>
       </el-form>
@@ -141,6 +166,27 @@
 				</span>
       </template>
     </el-dialog>
+
+    <el-dialog title="裁剪图片" v-model="dialogVisible" width="600px">
+      <vue-cropper
+          ref="cropper"
+          :src="imgSrc"
+          :ready="cropImage"
+          :zoom="cropImage"
+          :cropmove="cropImage"
+          style="width: 100%; height: 400px"
+      ></vue-cropper>
+
+      <template #footer>
+				<span class="dialog-footer">
+					<el-button class="crop-demo-btn" type="primary" @change="setImage">选择图片
+						<input class="crop-input" type="file" name="image" accept="image/*" @change="setImage"/>
+					</el-button>
+					<el-button type="primary" @click="saveAvatar">上传并保存</el-button>
+				</span>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -153,6 +199,9 @@ import request from "../request";
 import type {FormInstance, FormRules} from 'element-plus';
 import QS from "qs";
 import {formatDate} from '../date.js'
+import goods from "../assets/img/2.png";
+import VueCropper from 'vue-cropperjs';
+import 'cropperjs/dist/cropper.css';
 
 const clean = (obj: any) => {
   for (const objKey in obj) {
@@ -214,14 +263,14 @@ const loadGoodsType = () => {
     // 0代表交易成功
     if (code != 0) {
       // 交易失败
-      ElMessage.error('加载商品类型失败' + message);
+      ElMessage.error('加载农产品类型失败' + message);
     } else {
       // 渠道数据初始化
       goodsTypeList.value = response.data.result;
       goodsTypeList.value.push(allGoodsType);
     }
   }).catch(function (error) {
-    ElMessage.error('加载商品类型失败：系统内部错误！');
+    ElMessage.error('加载农产品类型失败：系统内部错误！');
   })
 }
 
@@ -244,6 +293,8 @@ interface GoodsItem {
   canOperate: boolean;
 }
 
+
+
 // 商户列表
 const goodsList = ref<GoodsItem[]>([]);
 const loadGoods = () => {
@@ -255,7 +306,7 @@ const loadGoods = () => {
     // 0代表交易成功
     if (code != 0) {
       // 交易失败
-      ElMessage.error('加载商品数据失败' + message);
+      ElMessage.error('加载农产品数据失败' + message);
     } else {
       // 渠道数据初始化
       goodsList.value = response.data.result.goodsList;
@@ -265,10 +316,10 @@ const loadGoods = () => {
         }
       }
       query.totalSize = response.data.result.totalSize;
-      ElMessage.success('加载商品数据成功');
+      ElMessage.success('加载农产品数据成功');
     }
   }).catch(function (error) {
-    ElMessage.error('加载渠道商品数据失败：系统内部错误！');
+    ElMessage.error('加载渠道商数据失败：系统内部错误！');
   })
 }
 // 查询操作
@@ -323,13 +374,13 @@ const loadMer = () => {
     // 0代表交易成功
     if (code != 0) {
       // 交易失败
-      ElMessage.error('加载商户数据失败' + message);
+      ElMessage.error('加载农户数据失败' + message);
     } else {
       // 渠道数据初始化
       merList.value = response.data.result.merList;
     }
   }).catch(function (error) {
-    ElMessage.error('加载渠道商户数据失败：系统内部错误！');
+    ElMessage.error('加载渠道商数据失败：系统内部错误！');
   })
 }
 
@@ -341,22 +392,22 @@ const addForm = ref<FormInstance>();
 // 表单对象校验规则
 const addRule: FormRules = {
   merchantId: [
-    {required: true, message: '请选择商户', trigger: 'blur'}
+    {required: true, message: '请选择农户', trigger: 'blur'}
   ],
   goodsName: [
-    {required: true, message: '请输入商品名称', trigger: 'blur'}
+    {required: true, message: '请输入农产品名称', trigger: 'blur'}
   ],
   goodsTypeId: [
-    {required: true, message: '请选择商品类型', trigger: 'blur'},
+    {required: true, message: '请选择农产品类型', trigger: 'blur'},
   ],
   goodsDesc: [
-    {required: true, message: '请输入商品描述', trigger: 'blur'},
+    {required: true, message: '请输入农产品描述', trigger: 'blur'},
   ],
   goodsPrice: [
-    {required: true, message: '请输入商品价格', trigger: 'blur'},
+    {required: true, message: '请输入农产品价格', trigger: 'blur'},
   ],
   goodsStock: [
-    {required: true, message: '请输入商品库存', trigger: 'blur'},
+    {required: true, message: '请输入农产品库存', trigger: 'blur'},
   ]
 };
 // 表单属性
@@ -384,6 +435,7 @@ const saveAdd = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid: boolean) => {
     if (valid) {
+      addFormParam.goodsImage = goodsImg.value;
       request.post("/goods/add", QS.stringify(addFormParam)).then(function (response) {
         // 返回响应码
         const code = response.data.code;
@@ -393,20 +445,20 @@ const saveAdd = (formEl: FormInstance | undefined) => {
         if (code == 0) {
           addVisible.value = false;
           loadGoods();
-          ElMessage.success(`新增商品成功`);
+          ElMessage.success(`新增农产品成功`);
         } else {
           // 交易失败
-          ElMessage.error(`新增商品失败：` + message);
+          ElMessage.error(`新增农产品失败：` + message);
         }
         addFormParam.goodsName = "";
         clean(addFormParam);
         addFormParam.userId = userId;
       }).catch(function (error) {
-        ElMessage.error(`新增商品失败：系统内部错误`);
+        ElMessage.error(`新增农产品失败：系统内部错误`);
         clean(addFormParam);
       })
     } else {
-      ElMessage.error(`新增商品失败：必填信息缺失`);
+      ElMessage.error(`新增农产品失败：必填信息缺失`);
     }
   })
 };
@@ -428,6 +480,9 @@ let editFormParam = reactive<GoodsItem>({
   updateTime: '',
   canOperate: false
 });
+
+
+
 // 修改显示标识
 const editVisible = ref(false);
 let idx: number = -1;
@@ -447,14 +502,15 @@ const saveEdit = () => {
     // 0代表交易成功
     if (code == 0) {
       goodsList.value[idx] = editFormParam;
-      ElMessage.success(`修改商品[${editFormParam.chnlAgentId} ]成功`);
+      ElMessage.success(`修改农产品[${editFormParam.chnlAgentId} ]成功`);
     } else {
       // 交易失败
-      ElMessage.error(`修改商品[${editFormParam.chnlAgentId} ]失败：` + message);
+      ElMessage.error(`修改农产品[${editFormParam.chnlAgentId} ]失败：` + message);
     }
     clean(editFormParam);
+    loadGoods();
   }).catch(function (error) {
-    ElMessage.error(`修改商品[${editFormParam.chnlAgentId} ]失败：`);
+    ElMessage.error(`修改农产品[${editFormParam.chnlAgentId} ]失败：`);
     clean(editFormParam);
   })
 };
@@ -473,18 +529,118 @@ const handleDelete = (index: number, row: GoodsItem) => {
       // 0代表交易成功
       if (code == 0) {
         loadGoods();
-        ElMessage.success("删除商品成功");
+        ElMessage.success("删除农产品成功");
       } else {
         // 交易失败
-        ElMessage.error("删除商品失败：" + message);
+        ElMessage.error("删除农产品失败：" + message);
       }
     }).catch(function (error) {
-      ElMessage.error("删除商品失败：系统内部错");
+      ElMessage.error("删除农产品失败：系统内部错");
     })
   }).catch(() => {
   });
 };
 
+
+// const Image = reactive<GoodsItem>({
+//   id: 0,
+//   goodsId: '',
+//   merchantId: '',
+//   chnlAgentId: '',
+//   chnlUserId: '',
+//   goodsName: '',
+//   goodsType: '',
+//   goodsDesc: '',
+//   goodsPrice: '',
+//   goodsImage: '',
+//   goodsStock: '',
+//   goodsStatus: '',
+//   createTime: '',
+//   updateTime: '',
+//   canOperate: false
+// });
+
+// 默认图片
+const goodsImg = ref(goods);
+// const dbGoods = <GoodsItem>JSON.parse(localStorage.getItem('goodsItem'));
+//
+// editFormParam.id = dbGoods.id;
+// editFormParam.goodsId = dbGoods.goodsId;
+// editFormParam.goodsImage = dbGoods.goodsImage;
+// editFormParam.merchantId = dbGoods.merchantId;
+// editFormParam.chnlAgentId = dbGoods.chnlAgentId;
+// editFormParam.chnlUserId = dbGoods.chnlUserId;
+// editFormParam.goodsName = dbGoods.goodsName;
+// editFormParam.goodsType = dbGoods.goodsType;
+// editFormParam.goodsDesc = dbGoods.goodsDesc
+// editFormParam.goodsPrice = dbGoods.goodsPrice;
+// editFormParam.goodsStock = dbGoods.goodsStock;
+// editFormParam.goodsStatus = dbGoods.goodsStatus;
+// editFormParam.createTime = dbGoods.createTime;
+// editFormParam.updateTime = dbGoods.updateTime;
+// editFormParam.canOperate = dbGoods.canOperate;
+// if (dbGoods.goodsImage != null) {
+//   goodsImg.value = dbGoods.goodsImage;
+// }
+
+// 图像来源
+const imgSrc = ref('');
+const cropImg = ref('');
+const dialogVisible = ref(false);
+const cropper: any = ref();
+
+const showImglog = () => {
+  dialogVisible.value = true;
+  imgSrc.value = goodsImg.value;
+};
+
+const setImage = (e: any) => {
+  const file = e.target.files[0];
+  if (!file.type.includes('image/')) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (event: any) => {
+    dialogVisible.value = true;
+    imgSrc.value = event.target.result;
+    cropper.value && cropper.value.replace(event.target.result);
+  };
+  reader.readAsDataURL(file);
+};
+
+const cropImage = () => {
+  cropImg.value = cropper.value.getCroppedCanvas().toDataURL();
+};
+
+const saveAvatar = () =>{
+  // editFormParam.goodsImage = cropImg.value;
+  //
+  // request.post("/goods/replaceGoodsImage", new URLSearchParams(editFormParam)).then(function (response) {
+  //   // 返回响应码
+  //   const code = response.data.code;
+  //   // 返回响应描述
+  //   const message = response.data.message;
+  //   // 返回数据
+  //   const result = response.data.result;
+  //   // 0代表交易成功
+  //   if (code == 0) {
+  //     ElMessage.success('修改成功');
+  //     goodsImg.value = cropImg.value;
+  //     dbGoods.goodsImage = cropImg.value;
+  //     dialogVisible.value = false;
+  //     // 用户信息
+  //     localStorage.setItem('userInfo', JSON.stringify(dbGoods));
+  //   } else {
+  //     // 交易失败
+  //     ElMessage.error('修改失败:' + message);
+  //   }
+  // }).catch(function (error) {
+  //   ElMessage.error('修改失败:' + JSON.stringify(error));
+  // })
+  goodsImg.value = cropImg.value;
+  dialogVisible.value = false;
+  editFormParam.goodsImage = goodsImg.value;
+};
 </script>
 
 <style scoped>
@@ -521,10 +677,28 @@ const handleDelete = (index: number, row: GoodsItem) => {
   margin-right: 10px;
 }
 
+.info-image{
+  overflow: hidden
+}
+
 .table-td-thumb {
   display: block;
   margin: auto;
   width: 40px;
   height: 40px;
+}
+
+.crop-demo-btn {
+  position: relative;
+}
+
+.crop-input {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 </style>

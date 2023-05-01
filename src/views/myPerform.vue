@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <el-tabs v-model="message" @click="clickPane">
+    <el-tabs v-model="message" >
       <el-tab-pane :label="`我的直播(${myPerformList.length})`" name="first">
         <el-table :data="myPerformList" :show-header="false" style="width: 100%">
           <el-table-column>
             <template #default="scope">
-              <span class="message-title">
+              <span class="message-title" @click="showDetail(scope.row)">
                 直播主题【{{ scope.row.performTitle }}】,直播开始时间【{{
                   scope.row.performStartDttm
                 }}】,直播结束时间【{{ scope.row.performEndDttm }}】</span>
@@ -41,8 +41,8 @@
         <template v-if="message === 'second'">
           <el-table :data="bookPerformList" :show-header="false" style="width: 100%">
             <el-table-column>
-              <template #default="scope">
-                <span class="message-title">
+              <template #default="scope" >
+                <span class="message-title" @click="showOrderDetail(scope.row)">
                 预约编号【{{ scope.row.book.applyId }}】,直播主题【{{
                     scope.row.perform.performTitle
                   }}】主播昵称【{{ scope.row.kolInfo.kolName }}】,直播开始时间【{{
@@ -52,7 +52,7 @@
             </el-table-column>
             <el-table-column width="280">
               <template #default="scope">
-                <el-button type="primary" :icon="Delete" color="Orange" @click="showPerform = true">观 看 直 播
+                <el-button type="primary" :icon="VideoPlay" color="Orange" @click="showPerform = true">观 看 直 播
                 </el-button>
                 <el-button type="primary" :icon="Delete" color="red"
                            @click="handleCancel(scope.row.book,scope.row.kolInfo)">取 消 预 约
@@ -66,12 +66,12 @@
         </template>
       </el-tab-pane>
 
-      <el-tab-pane :label="`回收站(${recoverList.length})`" name="third">
+      <el-tab-pane :label="`直播记录(${recoverList.length})`" name="third">
         <template v-if="message === 'third'">
           <el-table :data="recoverList" :show-header="false" style="width: 100%">
             <el-table-column>
-              <template #default="scope">
-                <span class="message-title">
+              <template #default="scope" >
+                <span class="message-title" @click="showDetail(scope.row)">
                 直播主题【{{ scope.row.performTitle }}】,直播开始时间【{{
                     scope.row.performStartDttm
                   }}】,直播结束时间【{{ scope.row.performEndDttm }}】</span>
@@ -80,13 +80,13 @@
             <el-table-column prop="date" width="150"></el-table-column>
             <el-table-column width="120">
               <template #default="scope">
-                <el-button type="danger" color="red" :icon="Delete" @click="handleDelete(scope.row)">清 理 直 播
+                <el-button type="danger" color="red" :icon="Delete" @click="handleDelete(scope.row)">删 除 记 录
                 </el-button>
               </template>
             </el-table-column>
           </el-table>
           <div class="handle-row">
-            <el-button type="primary" color="red" :icon="DeleteFilled" @click="handleDeleteAll">清 空 回 收 站</el-button>
+            <el-button type="primary" color="red" :icon="DeleteFilled" @click="handleDeleteAll">清 空 记 录</el-button>
           </div>
         </template>
       </el-tab-pane>
@@ -94,8 +94,52 @@
     <!-- 观看弹出框 -->
     <el-dialog title="直播框" v-model="showPerform" width="70%" style="height: 50%">
       <div style="align-items: center; height: 50%">
-        这是一个直播的视频
+        直播链接
       </div>
+    </el-dialog>
+
+<!--    直播预约弹窗-->
+    <el-dialog title="直播详情" v-model="detailVisible" width="40%">
+      <el-form label-width="250px">
+        <el-form-item class="info-name" label="直播ID:">
+          {{ purchaseDetail.id }}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播房号:">
+          {{ purchaseDetail.perforId }}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播标题:">
+          {{ purchaseDetail.performTitle }}
+        </el-form-item>
+        <el-form-item class="info-name" label="主播昵称:">
+          {{ kolDetail.kolName }}
+        </el-form-item>
+        <el-form-item class="info-name" label="主播人气:">
+          {{ kolDetail.kolFollowers }}
+        </el-form-item>
+        <el-form-item class="info-name" label="主播简介:">
+          {{ kolDetail.kolIntroduce }}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播描述:">
+          {{ purchaseDetail.performGoodsIntroduce }}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播链接:">
+          {{ purchaseDetail.performUrl }}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播预约数:">
+          {{ purchaseDetail.applyNumber }}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播开始时间:" #default="scope">
+          {{purchaseDetail.performStartDttm}}
+        </el-form-item>
+        <el-form-item class="info-name" label="直播结束时间:" #default="scope">
+          {{purchaseDetail.performEndDttm}}
+        </el-form-item>
+      </el-form>
+      <template #footer>
+				<span class="dialog-footer">
+					<el-button @click="detailVisible = false">关 闭</el-button>
+				</span>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -118,12 +162,31 @@ import {fetchData} from '../api/index';
 import request from "../request";
 import type {FormInstance, FormRules} from 'element-plus';
 import QS from "qs";
+import {formatDate} from '../date.js'
+
 
 const viewVisible = ref(true);
 
+//直播信息
+// interface KOlPerform {
+//   id: string;
+//   perforId: string;
+//   performTitle: string;
+//   performPlatform: string;
+//   performStatus: string;
+//   kolId: string;
+//   performGoodsIntroduce: string;
+//   performUrl: string;
+//   applyNumber: string;
+//   applyMaxNumber: string;
+//   performStartDttm: string;
+//   performEndDttm: string;
+//   createTime: string;
+//   updateTime: string;
+// }
 // 用户信息
 interface UserInfo {
-  id: string
+  id: string;
   userId: string;
   userLoginName: string;
   userEmail: string;
@@ -195,13 +258,33 @@ const message = ref('first');
 
 const myPerformList = ref<Perform[]>([]);
 const recoverList = ref<Perform[]>([]);
+const myKolInfo = ref<KOL>();
 const bookPerformList = ref<BookPerform[]>([]);
+
+
+const purchaseDetail = ref<Perform>();
+const kolDetail = ref<KOL>();
+const detailVisible = ref(false);
+const showDetail = (perform: Perform) => {
+  detailVisible.value = true;
+  purchaseDetail.value = perform;
+  kolDetail.value = myKolInfo.value;
+}
+
+const showOrderDetail = (bookPerform: BookPerform) => {
+  detailVisible.value = true;
+  purchaseDetail.value = bookPerform.perform;
+  kolDetail.value = bookPerform.kolInfo;
+}
 
 const queryMyPerform = () => {
   request.post("/perform/queryByUserId", QS.stringify(operateParam)).then(function (response) {
     if (response.data.code == 0) {
       // 0代表交易成功
-      myPerformList.value = response.data.result;
+      if(response.data.result.performList){
+        myPerformList.value = response.data.result.performList;
+        myKolInfo.value =  response.data.result.kolInfo;
+      }
     } else {
       // 交易失败
       ElMessage.error('加载信息失败:' + response.data.message);
@@ -214,8 +297,10 @@ const queryMyPerform = () => {
 const queryRecover = () => {
   request.post("/perform/queryRecover", QS.stringify(operateParam)).then(function (response) {
     if (response.data.code == 0) {
-      // 0代表交易成功
-      recoverList.value = response.data.result;
+      if(response.data.result){
+        // 0代表交易成功
+        recoverList.value = response.data.result;
+      }
     } else {
       // 交易失败
       ElMessage.error('加载信息失败:' + response.data.message);
@@ -228,8 +313,10 @@ const queryRecover = () => {
 const queryBook = () => {
   request.post("/perform/queryBook", QS.stringify(operateParam)).then(function (response) {
     if (response.data.code == 0) {
-      // 0代表交易成功
-      bookPerformList.value = response.data.result;
+      if(response.data.result){
+        // 0代表交易成功
+        bookPerformList.value = response.data.result;
+      }
     } else {
       // 交易失败
       ElMessage.error('加载信息失败:' + response.data.message);
@@ -323,7 +410,8 @@ const handleCancel = (book: Book, kolInfo: KOL) => {
   alert(QS.stringify(book.performId))
   request.post("/perform/bookCancel", param).then(function (response) {
     if (response.data.code == 0) {
-      initData();
+      initData()
+      alert("直播预约已取消")
       ElMessage.success("直播预约已取消")
     } else {
       // 交易失败

@@ -93,7 +93,7 @@
         <el-card shadow="hover">
           <template #header>
             <div class="clearfix">
-              <span>主播申请</span>
+              <span>直播申请</span>
             </div>
           </template>
           <el-form :model="performParam" :rules="performRule" ref="performForm" label-width="110px">
@@ -435,7 +435,7 @@ const perform = (formEl: FormInstance) => {
   performParam.performEndDttm = (JSON.stringify(performParam.endDate).substring(1, 11).replaceAll("-", "")
       + JSON.stringify(performParam.endTime).substring(12, 20).replaceAll(":", ""));
   if (performParam.performStartDttm > performParam.performEndDttm) {
-    ElMessage.error('直播开始时间不能晚于计算时间');
+    ElMessage.error('直播开始时间不能晚于结束时间');
     return;
   }
   formEl.validate((valid: boolean) => {
@@ -456,7 +456,7 @@ const perform = (formEl: FormInstance) => {
         ElMessage.error('直播申请失败：' + error);
       })
     } else {
-      ElMessage.error('请正确填写入驻参数');
+      ElMessage.error('请正确填写申请参数');
     }
   })
 }

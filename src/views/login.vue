@@ -45,12 +45,10 @@
         <el-form-item prop="img" class="upload" label="用户头像">
           <div class="info-image" @click="showDialog">
             <el-avatar :size="30" :src="avatarImg"/>
-            <!--            <span class="info-edit">-->
-            <!--								<i class="el-icon-lx-camerafill"></i>-->
-            <!--							</span>-->
           </div>
           <el-button size="small" type="primary" @click="showDialog">点击上传</el-button>
         </el-form-item>
+
         <el-form-item label="用户密码" prop="userPassword">
           <el-input v-model="registerParam.userPassword" placeholder="用户密码" type="password">
           </el-input>
@@ -129,6 +127,7 @@
 				</span>
       </template>
     </el-dialog>
+
   </div>
 
 
@@ -308,7 +307,7 @@ const registerParam = reactive<UserInfo>({
 const registerRule: FormRules = {
   userLoginName: [
     {required: true, message: '请输入用户名', trigger: 'blur'},
-    {min: 5, max: 16, message: '用户名长度为5-15位之间', trigger: 'blur'},
+    {min: 5, max: 16, message: '用户名长度为5-16位之间', trigger: 'blur'},
   ],
   userPassword: [
     {required: true, message: '请输入密码', trigger: 'blur'},
@@ -319,7 +318,7 @@ const registerRule: FormRules = {
   ],
   userIdNo: [
     {required: true, message: '请输入证件号码', trigger: 'blur'},
-    {min: 15, max: 18, message: '身份证号码长度为18位', trigger: 'blur'},
+    {min: 18, max: 18, message: '身份证号码长度为18位', trigger: 'blur'},
   ],
   userIdType: [
     {required: true, message: '请选择证件类型', trigger: 'blur'},
@@ -389,7 +388,7 @@ tags.clearTags();
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url(../assets/img/780.jpg);
+  background-image: url(../assets/img/1.jpg);
   background-size: 100%;
 }
 

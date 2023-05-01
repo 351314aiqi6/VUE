@@ -6,7 +6,7 @@
           <el-table-column>
             <template #default="scope">
               <span class="message-title" @click="showDetail(scope.row)">
-                【我发起的采购单】采购时间【{{ scope.row.createTime }}】,采购商品【{{ scope.row.goodsId }}】,当前状态【{{
+                【我发起的采购单】采购时间【{{ scope.row.createTime }}】,采购农产品【{{ scope.row.goodsId }}】,当前状态【{{
                   scope.row.purchaseStatus
                 }}】,采购数量【{{ scope.row.purchaseNumber }}】,采购总金额【{{ scope.row.totalPrice }}】</span>
             </template>
@@ -38,7 +38,7 @@
             <el-table-column>
               <template #default="scope">
                 <span class="message-title" @click="showDetail(scope.row)">
-                【我受理的采购单】采购时间【{{ scope.row.createTime }}】,采购商品【{{ scope.row.goodsId }}】,当前状态【{{
+                【我受理的采购单】采购时间【{{ scope.row.createTime }}】,采购农产品【{{ scope.row.goodsId }}】,当前状态【{{
                     scope.row.purchaseStatus
                   }}】,采购数量【{{ scope.row.purchaseNumber }}】,采购总金额【{{ scope.row.totalPrice }}】</span>
               </template>
@@ -71,7 +71,7 @@
             <el-table-column>
               <template #default="scope">
                 <span class="message-title" @click="showDetail(scope.row)">
-                【已结束的采购单】采购时间【{{ scope.row.createTime }}】,采购商品【{{ scope.row.goodsId }}】,当前状态【{{
+                【已结束的采购单】采购时间【{{ scope.row.createTime }}】,采购农产品【{{ scope.row.goodsId }}】,当前状态【{{
                     scope.row.purchaseStatus
                   }}】,采购数量【{{ scope.row.purchaseNumber }}】,采购总金额【{{ scope.row.totalPrice }}】</span>
               </template>
@@ -95,7 +95,7 @@
             <el-table-column>
               <template #default="scope">
                 <span class="message-title" @click="showDetail(scope.row)">
-                【已结束的采购单】采购时间【{{ scope.row.createTime }}】,采购商品【{{ scope.row.goodsId }}】,当前状态【{{
+                【已结束的采购单】采购时间【{{ scope.row.createTime }}】,采购农产品【{{ scope.row.goodsId }}】,当前状态【{{
                     scope.row.purchaseStatus
                   }}】,采购数量【{{ scope.row.purchaseNumber }}】,采购总金额【{{ scope.row.totalPrice }}】</span>
               </template>
@@ -103,7 +103,7 @@
             <el-table-column prop="date" width="150"></el-table-column>
             <el-table-column width="120">
               <template #default="scope">
-                <el-button disabled>平台申诉处理中</el-button>
+                <el-button disabled>申述处理中</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -123,7 +123,7 @@
         <el-form-item class="info-name" label="收款人账号:">
           {{ purchaseDetail.payeeUserId }}
         </el-form-item>
-        <el-form-item class="info-name" label="采购商品数量:">
+        <el-form-item class="info-name" label="采购农产品数量:">
           {{ purchaseDetail.purchaseNumber }}
         </el-form-item>
         <el-form-item class="info-name" label="采购单总金额:">
@@ -165,7 +165,7 @@
         <el-form-item class="info-name" label="采购单编号:">
           {{ purchaseDetail.purchaseId }}
         </el-form-item>
-        <el-form-item class="info-name" label="采购商品号:">
+        <el-form-item class="info-name" label="采购农产品号:">
           {{ purchaseDetail.goodsId }}
         </el-form-item>
         <el-form-item class="info-name" label="采购发起人:">
@@ -174,7 +174,7 @@
         <el-form-item class="info-name" label="采购受理人:">
           {{ purchaseDetail.payeeUserId }}
         </el-form-item>
-        <el-form-item class="info-name" label="采购商品数量:">
+        <el-form-item class="info-name" label="采购农产品数量:">
           {{ purchaseDetail.purchaseNumber }}
         </el-form-item>
         <el-form-item class="info-name" label="采购单总金额:">
@@ -215,7 +215,7 @@
         <el-form-item class="info-name" label="采购单编号:">
           {{ purchaseDetail.purchaseId }}
         </el-form-item>
-        <el-form-item class="info-name" label="采购商品号:">
+        <el-form-item class="info-name" label="采购农产品号:">
           {{ purchaseDetail.goodsId }}
         </el-form-item>
         <el-form-item class="info-name" label="采购发起人:">
@@ -224,7 +224,7 @@
         <el-form-item class="info-name" label="采购受理人:">
           {{ purchaseDetail.payeeUserId }}
         </el-form-item>
-        <el-form-item class="info-name" label="采购商品数量:">
+        <el-form-item class="info-name" label="采购农产品数量:">
           {{ purchaseDetail.purchaseNumber }}
         </el-form-item>
         <el-form-item class="info-name" label="采购单总金额:">
@@ -340,7 +340,7 @@ const initData = () => {
       ElMessage.error('采购单加载成功' + message);
     }
   }).catch(function (error) {
-    ElMessage.error('加载商品类型失败：系统内部错误！');
+    ElMessage.error('加载农产品类型失败：系统内部错误！');
   })
 }
 initData();

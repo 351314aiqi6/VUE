@@ -12,7 +12,7 @@
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
-        <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+<!--        <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>-->
         <el-table-column prop="chnlAgentId" width="140" label="渠道商编号"></el-table-column>
         <el-table-column label="渠道商名称" width="150px">
           <template #default="scope">{{ scope.row.chnlAgentName }}</template>

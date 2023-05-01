@@ -29,11 +29,11 @@
               <span>商品类别</span>
             </div>
           </template>
-          食品
+          水果
           <el-progress :percentage="35.6" color="#FF0000"></el-progress>
-          百货
+          蔬菜
           <el-progress :percentage="24" color="#f1e05a"></el-progress>
-          家电
+          农副产品
           <el-progress :percentage="41.4"></el-progress>
         </el-card>
       </el-col>
@@ -60,7 +60,7 @@
                 </el-icon>
                 <div class="grid-cont-right">
                   <div class="grid-num">{{ merchantNum }}</div>
-                  <div>商户数量</div>
+                  <div>农户数量</div>
                 </div>
               </div>
             </el-card>
@@ -73,7 +73,7 @@
                 </el-icon>
                 <div class="grid-cont-right">
                   <div class="grid-num">{{ goodsNum }}</div>
-                  <div>商品数量</div>
+                  <div>农产品数量</div>
                 </div>
               </div>
             </el-card>
@@ -179,15 +179,15 @@ const options = {
   labels: ['周一', '周二', '周三', '周四', '周五'],
   datasets: [
     {
-      label: '家电',
+      label: '水果',
       data: [234, 278, 270, 190, 230]
     },
     {
-      label: '百货',
+      label: '蔬菜',
       data: [164, 178, 190, 135, 160]
     },
     {
-      label: '食品',
+      label: '农副产品',
       data: [144, 198, 150, 235, 120]
     }
   ]
@@ -200,15 +200,15 @@ const options2 = {
   labels: ['6月', '7月', '8月', '9月', '10月'],
   datasets: [
     {
-      label: '家电',
+      label: '水果',
       data: [234, 278, 270, 190, 230]
     },
     {
-      label: '百货',
+      label: '蔬菜',
       data: [164, 178, 150, 135, 160]
     },
     {
-      label: '食品',
+      label: '农副产品',
       data: [74, 118, 200, 235, 90]
     }
   ]

@@ -18,11 +18,19 @@
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
       </div>
       <el-table :data="performList" border class="table" header-cell-class-name="table-header">
-        <el-table-column prop="id" width="60" label="序号" align="center"></el-table-column>
+<!--        <el-table-column prop="id" width="60" label="序号" align="center"></el-table-column>-->
         <el-table-column prop="perforId" width="130" label="直播编号" align="center"></el-table-column>
         <el-table-column prop="performPlatform" width="100" label="直播平台" align="center"></el-table-column>
         <el-table-column prop="performTitle" style="width: 12%" label="直播标题" align="center"></el-table-column>
+        <el-table-column prop="performGoodsIntroduce" style="width: 12%" label="直播简介" align="center"></el-table-column>
         <el-table-column prop="kolId" width="90" label="主播编号" align="center"></el-table-column>
+<!--        <el-table-column prop="kolName" width="90" label="主播名称" align="center"></el-table-column>-->
+
+
+
+
+
+<!--        <el-table-column prop="kolIntroduce" width="90" label="主播简介" align="center"></el-table-column>-->
         <el-table-column prop="performUrl" style="width: 12%" label="直播链接" align="center"></el-table-column>
         <el-table-column prop="applyNumber" width="90" label="预约人数" align="center"></el-table-column>
         <el-table-column prop="applyMaxNumber" width="90" label="最大预约数" align="center"></el-table-column>
@@ -96,10 +104,10 @@
         <el-form-item class="info-name" label="直播预约数:">
           {{ bookFormParam.applyNumber }}
         </el-form-item>
-        <el-form-item class="info-name" label="直播开始时间:">
-          {{ bookFormParam.performStartDttm }}
+        <el-form-item class="info-name" label="直播开始时间:" #default="scope">
+          {{bookFormParam.performStartDttm}}
         </el-form-item>
-        <el-form-item class="info-name" label="直播结束时间:">
+        <el-form-item class="info-name" label="直播结束时间:" #default="scope">
           {{ bookFormParam.performEndDttm }}
         </el-form-item>
       </el-form>
@@ -152,6 +160,8 @@ interface Perform {
   applyMaxNumber: string;
   performStartDttm: string;
   performEndDttm: string;
+  createTime: string;
+  updateTime: string;
 }
 
 interface UserInfo {
@@ -299,7 +309,9 @@ const bookFormParam = ref<Perform>({
   performStatus: "",
   applyMaxNumber:"",
   performTitle: "",
-  performUrl: ""
+  performUrl: "",
+  createTime: "",
+  updateTime: ""
 });
 // 预约的主播信息
 let bookKol = ref<KOL>({

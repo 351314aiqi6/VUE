@@ -14,9 +14,12 @@ export default defineConfig({
 		}),
 		Components({
 			resolvers: [ElementPlusResolver()]
-		})
+		}),
 	],
+	server:{
+			port:9090
+		},
 	optimizeDeps: {
 		include: ['schart.js']
-	}
+	},
 });

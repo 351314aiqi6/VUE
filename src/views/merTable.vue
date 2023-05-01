@@ -6,23 +6,23 @@
                   width="100"></el-input>
         <el-input v-model="query.userId" placeholder="请输入用户ID" class="handle-input-180 mr10 wd80"
                   width="100"></el-input>
-        <el-input v-model="query.merchantId" placeholder="请输入商户ID" class="handle-input-180 mr10 wd80"
+        <el-input v-model="query.merchantId" placeholder="请输入农户ID" class="handle-input-180 mr10 wd80"
                   width="100"></el-input>
         <el-button type="primary" :icon="Search" @click="handleSearch">搜 索</el-button>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新 增</el-button>
       </div>
       <el-table :data="merList" border class="table" header-cell-class-name="table-header">
-        <el-table-column prop="id" label="序号" width="55" align="center"></el-table-column>
-        <el-table-column prop="merchantId" width="100" label="商户号"></el-table-column>
-        <el-table-column prop="merchantName" width="100" label="商户名称"></el-table-column>
+<!--        <el-table-column prop="id" label="序号" width="55" align="center"></el-table-column>-->
+        <el-table-column prop="merchantId" width="100" label="农户号"></el-table-column>
+        <el-table-column prop="merchantName" width="100" label="农户名称"></el-table-column>
         <el-table-column prop="userId" width="100" label="所属用户"></el-table-column>
         <el-table-column prop="chnlAgentId" width="100" label="所属渠道"></el-table-column>
-        <el-table-column prop="merchantAdress" width="100" label="商户地址"></el-table-column>
-        <el-table-column prop="merchantPrivatId" width="100" label="商户证件"></el-table-column>
-        <el-table-column prop="merchantAdress" width="100" label="商户地址"></el-table-column>
-        <el-table-column prop="merchantEmail" width="100" label="商户邮箱"></el-table-column>
-        <el-table-column prop="merchantPhone" width="100" label="商户电话"></el-table-column>
-        <el-table-column prop="merchantStatus" width="100" label="商户状态"></el-table-column>
+        <el-table-column prop="merchantAdress" width="100" label="农户地址"></el-table-column>
+        <el-table-column prop="merchantPrivatId" width="100" label="农户证件"></el-table-column>
+        <el-table-column prop="merchantAdress" width="100" label="农户地址"></el-table-column>
+        <el-table-column prop="merchantEmail" width="100" label="农户邮箱"></el-table-column>
+        <el-table-column prop="merchantPhone" width="100" label="农户电话"></el-table-column>
+        <el-table-column prop="merchantStatus" width="100" label="农户状态"></el-table-column>
         <el-table-column label="注册时间" width="240px">
           <template #default="scope">{{
               formatDate({'date': scope.row.createTime, "formatStr": "yyyy年MM月dd日 HH时mm分ss秒"})
@@ -62,28 +62,28 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-model="editVisible" width="40%">
       <el-form label-width="120px">
-        <el-form-item class="info-name" label="用户编号:">
+        <el-form-item class="info-name" label="农户编号:">
           {{ editFormParam.userId }}
         </el-form-item>
         <el-form-item class="info-name" label="渠道商编号:">
           {{ editFormParam.chnlAgentId }}
         </el-form-item>
-        <el-form-item class="info-name" label="商户编号:">
+        <el-form-item class="info-name" label="农户编号:">
           {{ editFormParam.merchantId }}
         </el-form-item>
-        <el-form-item class="info-name" label="商户证件:">
+        <el-form-item class="info-name" label="商农户证件:">
           {{ editFormParam.merchantPrivatId }}
         </el-form-item>
-        <el-form-item label="商户名称:">
+        <el-form-item label="农户名称:">
           <el-input v-model="editFormParam.merchantName"></el-input>
         </el-form-item>
-        <el-form-item label="商户地址:">
+        <el-form-item label="农户地址:">
           <el-input v-model="editFormParam.merchantAdress"></el-input>
         </el-form-item>
-        <el-form-item label="商户邮箱:">
+        <el-form-item label="农户邮箱:">
           <el-input v-model="editFormParam.merchantEmail"></el-input>
         </el-form-item>
-        <el-form-item label="商户电话:">
+        <el-form-item label="农户电话:">
           <el-input v-model="editFormParam.merchantPhone"></el-input>
         </el-form-item>
       </el-form>
@@ -96,9 +96,9 @@
     </el-dialog>
 
     <!-- 新增弹出框 -->
-    <el-dialog title="商户新增" v-model="addVisible" width="40%">
+    <el-dialog title="农户新增" v-model="addVisible" width="40%">
       <el-form :model="addFormParam" :rules="addRule" ref="addForm" label-width="120px">
-        <el-form-item class="info-name" label="用户编号:">
+        <el-form-item class="info-name" label="农户编号:">
           {{ addFormParam.userId }}
         </el-form-item>
         <el-form-item class="info-name" label="渠道商编号:" prop="chnlAgentId">
@@ -108,19 +108,19 @@
 
           </el-select>
         </el-form-item>
-        <el-form-item label="商户名称:" prop="merchantName">
+        <el-form-item label="农户名称:" prop="merchantName">
           <el-input v-model="addFormParam.merchantName"></el-input>
         </el-form-item>
-        <el-form-item label="商户地址:" prop="merchantAdress">
+        <el-form-item label="农户地址:" prop="merchantAdress">
           <el-input v-model="addFormParam.merchantAdress"></el-input>
         </el-form-item>
-        <el-form-item label="商户邮箱:" prop="merchantEmail">
+        <el-form-item label="农户邮箱:" prop="merchantEmail">
           <el-input v-model="addFormParam.merchantEmail"></el-input>
         </el-form-item>
-        <el-form-item label="商户电话:" prop="merchantPhone">
+        <el-form-item label="农户电话:" prop="merchantPhone">
           <el-input v-model="addFormParam.merchantPhone"></el-input>
         </el-form-item>
-        <el-form-item label="商户证件:" prop="merchantPhone">
+        <el-form-item label="农户证件:" prop="merchantPhone">
           <el-input v-model="addFormParam.merchantPrivatId"></el-input>
         </el-form-item>
       </el-form>
@@ -204,7 +204,7 @@ const loadMer = () => {
     // 0代表交易成功
     if (code != 0) {
       // 交易失败
-      ElMessage.error('加载商户数据失败' + message);
+      ElMessage.error('加载农户数据失败' + message);
     } else {
       // 渠道数据初始化
       merList.value = response.data.result.merList;
@@ -214,7 +214,7 @@ const loadMer = () => {
         }
       }
       query.totalSize = response.data.result.totalSize;
-      ElMessage.success('加载商户数据成功');
+      ElMessage.success('加载农户数据成功');
     }
   }).catch(function (error) {
     ElMessage.error('加载渠道商户数据失败：系统内部错误！');
@@ -242,19 +242,19 @@ const addForm = ref<FormInstance>();
 // 表单对象校验规则
 const addRule: FormRules = {
   merchantName: [
-    {required: true, message: '请输入商户名称', trigger: 'blur'}
+    {required: true, message: '请输入农户名称', trigger: 'blur'}
   ],
   merchantPrivatId: [
-    {required: true, message: '请输入商户证件号', trigger: 'blur'}
+    {required: true, message: '请输入农户证件号', trigger: 'blur'}
   ],
   merchantAdress: [
-    {required: true, message: '请输入商户地址', trigger: 'blur'},
+    {required: true, message: '请输入农户地址', trigger: 'blur'},
   ],
   merchantPhone: [
-    {required: true, message: '请输入商户手机', trigger: 'blur'},
+    {required: true, message: '请输入农户手机', trigger: 'blur'},
   ],
   merchantEmail: [
-    {required: true, message: '请输入商户邮箱', trigger: 'blur'},
+    {required: true, message: '请输入农户邮箱', trigger: 'blur'},
   ]
 };
 // 表单属性
@@ -326,17 +326,17 @@ const saveAdd = (formEl: FormInstance | undefined) => {
         if (code == 0) {
           addVisible.value = false;
           loadMer();
-          ElMessage.success(`新增商户成功`);
+          ElMessage.success(`新增农户成功`);
         } else {
           // 交易失败
-          ElMessage.error(`新增商户失败：` + message);
+          ElMessage.error(`新增农户失败：` + message);
         }
         clean(addFormParam)
       }).catch(function (error) {
-        ElMessage.error(`新增商户失败：系统内部错误`);
+        ElMessage.error(`新增农户失败：系统内部错误`);
       })
     } else {
-      ElMessage.error(`新增商户失败：必填信息缺失`);
+      ElMessage.error(`新增农户失败：必填信息缺失`);
       clean(addFormParam)
     }
   })
@@ -404,13 +404,13 @@ const handleDelete = (index: number, id: bigint) => {
       // 0代表交易成功
       if (code == 0) {
         merList.value.splice(index, 1);
-        ElMessage.success("删除商户成功");
+        ElMessage.success("删除农户成功");
       } else {
         // 交易失败
-        ElMessage.error("删除商户失败：" + message);
+        ElMessage.error("删除农户失败：" + message);
       }
     }).catch(function (error) {
-      ElMessage.error("删除商户失败：系统内部错");
+      ElMessage.error("删除农户失败：系统内部错");
     })
   }).catch(() => {
   });
